@@ -1,0 +1,46 @@
+@font-face {
+  font-family: poppins;
+  src: url('Poppins-Regular.ttf');
+}
+
+@font-face {
+  font-family: olibrick;
+  src: url('Olibrick-c72a.woff');
+}
+
+html {
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  line-height: 1;
+  background-color: #974e55;
+  color: #efefef;
+  font-family: poppins;
+}
+
+body {
+  margin: 0;
+  padding: inherit;
+  height: 100%;
+  width: 100%;
+}
+
+.root {
+  height: 100%;
+}
+
+ul {
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1;
+  margin: 0;
+}
+
+a {
+  color: #efefef;
+  text-decoration: none;
+  cursor: pointer;
+}

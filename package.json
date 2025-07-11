@@ -1,0 +1,30 @@
+{
+  "name": "ne-fgc",
+  "version": "1.0.0",
+  "description": "Website for the Nebraska FGC",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "node ./scripts/build.js",
+    "watch": "node ./scripts/build.js --eswatch",
+    "start": "node ./src/server/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "FGC",
+    "Nebraska"
+  ],
+  "author": "TJ",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router": "^7.6.3",
+    "styled-components": "^6.1.19"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.6",
+    "mri": "^1.2.0"
+  }
+}
