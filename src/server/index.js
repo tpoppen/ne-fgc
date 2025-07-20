@@ -4,11 +4,10 @@ import path from 'path';
 import authpkg  from 'express-openid-connect';
 const { auth, requiresAuth } = authpkg;
 
-import initializeDatabase from './db/index';
+import initializeDatabase from './db/index.js';
 
 const db = initializeDatabase();
 db.authenticate();
-db.connect();
 
 const config = {
   authRequired: false,

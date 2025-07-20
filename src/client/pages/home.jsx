@@ -13,10 +13,19 @@ const Header = styled.h2`
 const Container = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   gap: 16px;
-
-  overflow-x: scroll;
 `;
+
+
+// TODO: use this code to handle horizontal scroll of lists
+
+// var item = document.getElementById("MAIN");
+
+// window.addEventListener("wheel", function (e) {
+//   if (e.deltaY > 0) item.scrollLeft += 100;
+//   else item.scrollLeft -= 100;
+// });
 
 const Home = () => {
   return (

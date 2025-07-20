@@ -67,6 +67,7 @@ const Header = () => {
           <li><Link to="/home">Home</Link></li>
           <li><Link to="/gallery">Gallery</Link></li>
           <li><Link to="/personalities">Personalities</Link></li>
+          <li><Link to="/repairs-and-commissions">Repairs and Commissions</Link></li>
         </ul>
       </Nav>
     </Container>

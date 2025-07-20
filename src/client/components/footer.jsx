@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import COLORS from '../utils/colors';
 
 const Container = styled.footer`
-  position: absolute;
+  position: sticky;
   bottom: 0;
   left: 0;
   right: 0;

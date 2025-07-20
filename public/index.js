@@ -23468,9 +23468,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   var Container2 = dt.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   gap: 16px;
-
-  overflow-x: scroll;
 `;
   var Home = () => {
     return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { children: [
@@ -23558,7 +23557,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Nav, { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("ul", { children: [
         /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Link, { to: "/home", children: "Home" }) }),
         /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Link, { to: "/gallery", children: "Gallery" }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Link, { to: "/personalities", children: "Personalities" }) })
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Link, { to: "/personalities", children: "Personalities" }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(Link, { to: "/repairs-and-commissions", children: "Repairs and Commissions" }) })
       ] }) })
     ] });
   };
@@ -23567,7 +23567,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   // src/client/components/footer.jsx
   var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
   var Container4 = dt.footer`
-  position: absolute;
+  position: sticky;
   bottom: 0;
   left: 0;
   right: 0;
@@ -23603,22 +23603,30 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   };
   var footer_default = Footer;
 
-  // src/client/index.jsx
+  // src/client/pages/repairs_and_commissions.jsx
   var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
+  var RepairsAndCommissions = () => {
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("h2", { children: "RepairsAndCommissions" }) });
+  };
+  var repairs_and_commissions_default = RepairsAndCommissions;
+
+  // src/client/index.jsx
+  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
   var Content = dt.div`
   padding: 16px;
 `;
   var root = document.getElementById("root");
   (0, import_client.createRoot)(root).render(
-    /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(BrowserRouter, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(header_default, {}),
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Content, { children: /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(Routes, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Route, { index: true, element: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(home_default, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Route, { path: "/home", element: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(home_default, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Route, { path: "/gallery", element: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(gallery_default, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Route, { path: "/personalities", element: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(personalities_default, {}) })
+    /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(BrowserRouter, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(header_default, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Content, { children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(Routes, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Route, { index: true, element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(home_default, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Route, { path: "/home", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(home_default, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Route, { path: "/gallery", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(gallery_default, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Route, { path: "/personalities", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(personalities_default, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Route, { path: "/repairs-and-commissions", element: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(repairs_and_commissions_default, {}) })
       ] }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(footer_default, {})
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(footer_default, {})
     ] })
   );
 })();
