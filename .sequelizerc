@@ -1,10 +1,6 @@
-const path = require('path');
-// const __dirname = import.meta.dirname; 
- 
-module.exports =  {
+import path from 'path';
 
+export default {
   config: path.resolve('config', 'database.js'),
   'models-path': path.resolve('src', 'server', 'models'),
-  'seeders-path': path.resolve('db', 'seeds'),
-  'migrations-path': path.resolve('db', 'migrations'),
 };

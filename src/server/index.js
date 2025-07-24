@@ -4,10 +4,12 @@ import path from 'path';
 import authpkg  from 'express-openid-connect';
 const { auth, requiresAuth } = authpkg;
 
-import initializeDatabase from './db/index.js';
+import initializeDatabase from './initializeDatabase.js';
+import { KEYS, provide } from './mediator.js';
 
 const db = initializeDatabase();
 db.authenticate();
+provide(KEYS.SEQUELIZE, db);
 
 const config = {
   authRequired: false,

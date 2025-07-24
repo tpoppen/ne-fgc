@@ -8,7 +8,7 @@ const initializeDatabase = () => {
     host: process.env['DB_HOST'],
     dialect: 'mysql',
   }
-  console.log(config);
+
   return new Sequelize(config);
 };
 

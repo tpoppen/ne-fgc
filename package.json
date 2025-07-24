@@ -8,8 +8,8 @@
     "build": "node ./scripts/build.js",
     "watch": "node ./scripts/build.js --eswatch",
     "start": "node --env-file=.env ./src/server/index.js",
-    "db:migrate": "node --env-file=.env sequelize-cli db:migrate",
-    "db:migrate:undo": "node --env-file=.env sequilize-cli db:migrate:undo",
+    "db:migrate": "node --env-file=.env ./scripts/umzug.js --up",
+    "db:migrate:undo": "node --env-file=.env ./scripts/umzug.js --down",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
