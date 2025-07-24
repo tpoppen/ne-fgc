@@ -2,20 +2,12 @@ import { Sequelize, DataTypes } from "sequelize";
 import { Umzug, SequelizeStorage } from 'umzug';
 import mri from 'mri';
 
-const __dirname = import.meta.dirname; 
+import initializeDatabase from "../src/server/initializeDatabase.js";
 
 const argv = process.argv.slice(2);
 const args = mri(argv, { boolean: ['up', 'down']});
 
-const dbConfig = {
-  username: process.env['DB_USERNAME'],
-  password: process.env['DB_PASSWORD'],
-  database: process.env['DB_DATABASE'],
-  host: process.env['DB_HOST'],
-  dialect: 'mysql',
-}
-
-const sequelize = new Sequelize(dbConfig);
+const sequelize =initializeDatabase();
 const umzug = new Umzug({
   migrations: { glob: 'db/migrations/*.js' },
   context: { queryInterface : sequelize.getQueryInterface(), DataTypes },
