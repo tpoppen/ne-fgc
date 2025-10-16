@@ -1,22 +1,4 @@
-import styled from 'styled-components';
-
-import Card from "../components/card";
-
-const Section = styled.div`
-  margin: 16px;
-`;
-
-const Header = styled.h2`
-  margin-bottom: 16px;
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 16px;
-`;
-
+import { Card, Flex, Typography } from 'antd';
 
 // TODO: use this code to handle horizontal scroll of lists
 
@@ -30,22 +12,22 @@ const Container = styled.div`
 const Home = () => {
   return (
     <div>
-      <Section>
-        <Header>Highlights</Header>
-        <Container>
+      <Flex>
+        <Typography.Title level={3}>Highlights</Typography.Title>
+        <Flex>
           {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => 
             <Card key={item} />
           )}
-        </Container>
-      </Section>
-      <Section>
-        <Header>Events</Header>
-        <Container>
+        </Flex>
+      </Flex>
+      <Flex>
+        <Typography.Title level={3}>Events</Typography.Title>
+        <Flex>
           {[1, 2, 3, 4, 5].map((item) => 
             <Card key={item} />
           )}
-        </Container>
-      </Section>
+        </Flex>
+      </Flex>
     </div>
   )
 };

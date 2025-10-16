@@ -1,5 +1,4 @@
 import { Link } from 'react-router';
-import styled from 'styled-components';
 
 import COLORS from '../utils/colors';
 

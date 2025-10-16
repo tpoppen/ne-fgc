@@ -1,8 +1,6 @@
-import styled from 'styled-components';
-
 import COLORS from '../utils/colors';
 
-const Container = styled.footer`
+const containerStyles = `
   position: sticky;
   bottom: 0;
   left: 0;
