@@ -11,6 +11,7 @@ import Footer from './components/footer';
 import RepairsAndCommissions from './pages/repairs_and_commissions';
 import { useState } from "react";
 import GearRental from "./pages/gear_rental";
+import Account from "./pages/account";
 
 const App = () => {
   const [useDark, setTheme] = useState(true);
@@ -26,8 +27,8 @@ const App = () => {
               <Route path="/home" element={<Home />} /> 
               <Route path="/gallery" element={<Gallery />} /> 
               <Route path="/gear-rental" element={<GearRental />} />
-              <Route path="/personalities" element={<Personalities />} /> 
-              <Route path="/repairs-and-commissions" element={<RepairsAndCommissions />} /> 
+              <Route path="/repairs-and-commissions" element={<RepairsAndCommissions />} />
+              <Route path="/account" element={<Account />} />
             </Routes>
           </Layout.Content>
           <Footer />

@@ -1,10 +1,7 @@
 # ne-fgc
 
 TODO: 
-- Add app build, watch, and start commands
-    - Finish setting up docker run time
-- Migrate Client to use Ant design instead of styled-components
-- Finish setting up cognito auth
+- Finish setting up cognito auth w/ permissions
 - Finish setting up DynamoDB
     - Design User schemas
         - id
@@ -13,3 +10,19 @@ TODO:
         - email
     - Design Event schemas
     - Design Gear schemas
+
+
+
+FEATURES:
+
+- Account Details Page
+    - Edit Account
+    - Delete Account
+
+- Event Management
+    - TO Role & permissions
+    - Event Create/Edit page
+    - Event Create Button on home page
+
+- Mobile Responsive Events Page
+    - Vertical events scrolling, maybe 2 x n 

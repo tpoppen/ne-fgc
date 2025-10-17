@@ -1,8 +1,11 @@
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
+
 import { Button, Flex, Layout, Menu, Segmented, Typography } from 'antd';
+import { ItemType } from 'antd/es/menu/interface';
 import { MoonOutlined, SunOutlined, UserOutlined } from '@ant-design/icons';
 
-const MenuItems = [
+const BaseMenuItems: ItemType[] = [
   {
     key: 'home',
     label: <Link to="/home">Events</Link>
@@ -19,7 +22,13 @@ const MenuItems = [
     key: 'commissions',
     label: <Link to="/repairs-and-commissions">Repairs and Commissions</Link>
   }
-]
+];
+
+const AccountMenuItem = {
+  key: 'account',
+  label: <Link to="/account">Account</Link>,
+  icon: <UserOutlined />
+}
 
 type HeaderProps = {
   theme: 'light' | 'dark',
@@ -27,6 +36,16 @@ type HeaderProps = {
 }
 
 const Header = ({ theme, onThemeChange }: HeaderProps) => {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [navItems, setNavItems] = useState(BaseMenuItems);
+  useEffect(() => {
+    if (loggedIn) {
+      setNavItems([...BaseMenuItems, { ...AccountMenuItem, disabled: false }]);
+    } else {
+      setNavItems([...BaseMenuItems, { ...AccountMenuItem, disabled: true }]);
+    }
+  }, [loggedIn])
+  
   return (
     <Layout.Header style={{ height: 'revert', padding: 0 }}>
       <Flex style={{ margin: '12px 24px' }}>
@@ -36,12 +55,12 @@ const Header = ({ theme, onThemeChange }: HeaderProps) => {
         <Typography.Title level={1} style={{ flexGrow: 1, fontSize: 96, fontFamily: 'olibrick', color: '#efefef' }}>NE FGC</Typography.Title>
         <Flex vertical style={{ alignSelf: 'end' }}>
           <div>
-            <Button type='primary' shape="round" size='large'>
-              Login
+            <Button type='primary' shape="round" size='large' onClick={(() => setLoggedIn(!loggedIn))}>
+              {loggedIn ? 'Logout' : 'Login'}
               <UserOutlined />
             </Button>
           </div>
-          <div>
+          <div style={{ alignSelf: 'end' }}>
             <Segmented
               size='large'
               shape="round"
@@ -55,7 +74,8 @@ const Header = ({ theme, onThemeChange }: HeaderProps) => {
           </div>
         </Flex>
       </Flex>
-      <Menu mode="horizontal" items={MenuItems} />
+      <style blocking='render'>{`.menu li:nth-last-child(2) { margin-left: auto; }`}</style>
+      <Menu className='menu' mode="horizontal" items={navItems} />
     </Layout.Header>
   )
 };
