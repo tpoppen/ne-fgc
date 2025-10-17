@@ -1,9 +1,5 @@
-const Gallery = () => {
-  return (
-    <div>
-      <h2>Gallery</h2>
-    </div>
-  )
-};
+import { Typography } from "antd";
+
+const Gallery = () => (<Typography.Title level={2}>Coming Soon</Typography.Title>);
 
 export default Gallery;

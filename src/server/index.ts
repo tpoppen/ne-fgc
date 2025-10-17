@@ -25,6 +25,8 @@ if (__dirname.includes('dist')) {
 }
 const index_path = path.join(publicPath, 'index.html');
 
+console.log({ publicPath, index_path });
+
 app.use(express.static(publicPath));
 // app.use(
 //   session({

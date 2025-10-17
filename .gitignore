@@ -2,5 +2,7 @@
 
 node_modules/
 
-./src/server/dist/
-./public/*.js
+# ignore build artifacts
+src/server/dist/
+public/*.js
+public/*.js.map

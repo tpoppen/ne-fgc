@@ -1,7 +1,9 @@
+import { Typography } from "antd";
+
 const RepairsAndCommissions = () => {
   return (
     <div>
-      <h2>RepairsAndCommissions</h2>
+      <Typography.Title level={2}>Coming Soon</Typography.Title>
     </div>
   )
 };

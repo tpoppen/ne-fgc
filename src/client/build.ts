@@ -9,7 +9,13 @@ const args = mri(argv, { boolean: ['bundle', 'minify', 'sourcemaps', 'eswatch'] 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const publicDir = path.join(__dirname, '../..', 'public');
-console.log({ __dirname, publicDir });
+console.log({
+  __dirname,
+  publicDir,
+  bundle: args.bundle,
+  sourcemap: args.sourcemaps,
+  minify: args.minify,
+});
 
 const context = await esbuild.context({
   entryPoints: ['index.tsx'],
@@ -31,4 +37,3 @@ if (args.eswatch) {
 } else {
   context.dispose();
 }
-
