@@ -24,5 +24,7 @@ FEATURES:
     - Event Create/Edit page
     - Event Create Button on home page
 
+- Use local storage/cache to keep track of light/dark theme selection
 - Mobile Responsive Events Page
-    - Vertical events scrolling, maybe 2 x n 
+    - Vertical events scrolling, maybe 2 x n
+

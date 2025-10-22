@@ -1,9 +1,11 @@
 {
   // Visit https://aka.ms/tsconfig to read more about this file
+  "include": ["src/**/*", "@customTypes/*"],
   "compilerOptions": {
     // File Layout
-    "rootDir": ".",
-    "outDir": "./dist",
+    "baseUrl": "src",
+    "rootDir": "src",
+    "outDir": "dist",
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
@@ -14,17 +16,27 @@
     "lib": ["esnext"],
     "types": ["node"],
     // and npm install -D @types/node
-
+    // "paths": {
+    //   "accessors/*": ["accessors/*"],
+    //   "middleware/*": ["middleware/*"],
+    //   "models/*": ["models/*"],
+    //   "routers/*": ["routers/*"],
+    //   "services/*": ["services/*"],
+    //   "utils/*": ["utils/*"],
+    // },
+    
     // Other Outputs
-    "sourceMap": true,
-    "declaration": true,
-    "declarationMap": true,
+    // "sourceMap": true,
+    // "declaration": true,
+    // "declarationMap": true,
 
     "strict": true,
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
-    "noUncheckedSideEffectImports": true,
-    "moduleDetection": "force",
+    // "verbatimModuleSyntax": true,
+    // "isolatedModules": true,
+    // "noUncheckedSideEffectImports": true,
+    // "moduleDetection": "force",
+    // "moduleResolution": "nodenext",
+    "esModuleInterop": true,
     "skipLibCheck": true
   }
 }
