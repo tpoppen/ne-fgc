@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from "express"
 import JWT from 'jsonwebtoken';
 import getJWTFromAuthHeader from "../utils/getJWTFromAuthHeader.js";
+import JWTContents from "../../@customTypes/jwtContents.js";
 
 const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const bearerToken = req.headers.authorization;
@@ -10,7 +11,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
       if (err) {
         return res.sendStatus(403);
       }
-      console.log({ jwtHash });
+      req.auth = jwtHash as JWTContents;
       next();
     });
   } else {
