@@ -61,7 +61,17 @@ SessionsRouter
       const token = JWT.sign({
         accessToken: result.AuthenticationResult?.AccessToken
       }, process.env.JWT_SECRET!)
-      
+
+      res.cookie('auth_token', token, {
+        // no js access
+        httpOnly: true, 
+        // only over HTTPS if prod
+        secure: process.env.NODE_ENV === 'production',
+        // 1 hour
+        maxAge: 3600000,
+        sameSite: 'strict'
+      });
+
       res.status(200).send({ token });
     } catch (error) {
       res.status(500).send();

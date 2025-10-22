@@ -1,5 +1,10 @@
 const getJWTFromAuthHeader = (authHeader: string) => {
-  return authHeader.split(' ')[1];
+  const [prefix, token] = authHeader.split(' ');
+  if (prefix === 'Bearer') {
+    return token;
+  } else {
+    return undefined
+  }
 }
 
 export default getJWTFromAuthHeader;

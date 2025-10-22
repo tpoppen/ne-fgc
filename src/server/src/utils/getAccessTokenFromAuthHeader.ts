@@ -5,8 +5,10 @@ import JWTContents from "../../@customTypes/jwtContents.js";
 const getAccessTokenFromAuthHeader = (authHeader: string | undefined) => {
   if (authHeader) {
     const jwt = getJWTFromAuthHeader(authHeader);
-    const jwtPayload = jwtDecode(jwt) as JWTContents;
-    return jwtPayload.accessToken;
+    if (jwt) {
+      const jwtPayload = jwtDecode(jwt) as JWTContents;
+      return jwtPayload.accessToken;
+    }
   }
 
   return undefined;
