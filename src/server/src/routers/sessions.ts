@@ -4,6 +4,7 @@ import JWT from 'jsonwebtoken';
 
 import CreateUser from '../services/users/createUser.js';
 import cognitoIdentityProviderClient from '../utils/cognitoIdentityProviderClient.js';
+import getAccessTokenFromAuthHeader from '../utils/getAccessTokenFromAuthHeader.js';
 
 const SessionsRouter = express.Router();
 
@@ -55,14 +56,19 @@ SessionsRouter
 
     try {
       const result = await client.send(confirmCommand);
-      const token = JWT.sign({ accessToken: result.AuthenticationResult?.AccessToken }, process.env.JWT_SECRET!)
+
+      // TODO: add more props here for JWT perms tracking
+      const token = JWT.sign({
+        accessToken: result.AuthenticationResult?.AccessToken
+      }, process.env.JWT_SECRET!)
+      
       res.status(200).send({ token });
     } catch (error) {
       res.status(500).send();
     }
   })
   .post('/logout', async (req, res) => {
-    const accessToken = cognitoIdentityProviderClient.getAccessTokenFromAuthHeader(req.headers.authorization);
+    const accessToken = getAccessTokenFromAuthHeader(req.headers.authorization);
     if (!accessToken) {
       return res.send(400);
     }

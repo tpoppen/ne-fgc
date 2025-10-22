@@ -15,7 +15,7 @@ const CreateUser = async (userParams: CreateUserParams) => {
   const clientSecret = cognitoIdentityProviderClient.getClientSecret(username);
   const client = cognitoIdentityProviderClient.getClient();
 
-  const signUpCommant = new SignUpCommand({
+  const signUpCommand = new SignUpCommand({
     ClientId: clientID,
     SecretHash: clientSecret,
     Username: username,
@@ -33,7 +33,7 @@ const CreateUser = async (userParams: CreateUserParams) => {
   });
 
   try {
-    return await client.send(signUpCommant);
+    return await client.send(signUpCommand);
   } catch (error) {
     // TODO: idk man
     throw error;

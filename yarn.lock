@@ -2390,24 +2390,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-jwt@npm:^8.5.1":
-  version: 8.5.1
-  resolution: "express-jwt@npm:8.5.1"
-  dependencies:
-    "@types/jsonwebtoken": "npm:^9"
-    express-unless: "npm:^2.1.3"
-    jsonwebtoken: "npm:^9.0.0"
-  checksum: 10c0/62c7123b96c2045232096f7a78f9af850eac251dae22b0e8610c293023498939b32ed70bf8ff407aa0dbfba83689188775ff9d8b832bd6a1a60a0eae9bb35214
-  languageName: node
-  linkType: hard
-
-"express-unless@npm:^2.1.3":
-  version: 2.1.3
-  resolution: "express-unless@npm:2.1.3"
-  checksum: 10c0/c2b6776cff1c6a7d77c719cb841930c1acdfd11839fcc5e7aa9ed7d638e524a22eba2473ef3b5d7403d77097e8fcd920a2be572265ab578569503547d98ad9ce
-  languageName: node
-  linkType: hard
-
 "express@npm:^5.1.0":
   version: 5.1.0
   resolution: "express@npm:5.1.0"
@@ -2830,7 +2812,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsonwebtoken@npm:^9.0.0, jsonwebtoken@npm:^9.0.2":
+"jsonwebtoken@npm:^9.0.2":
   version: 9.0.2
   resolution: "jsonwebtoken@npm:9.0.2"
   dependencies:
@@ -4013,7 +3995,6 @@ __metadata:
     "@types/node": "npm:^24.7.0"
     dotenv: "npm:^17.2.3"
     express: "npm:^5.1.0"
-    express-jwt: "npm:^8.5.1"
     jsonwebtoken: "npm:^9.0.2"
     jwt-decode: "npm:^4.0.0"
     nodemon: "npm:^3.1.10"

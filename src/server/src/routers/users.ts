@@ -1,18 +1,16 @@
 import express from 'express';
-import { expressjwt } from 'express-jwt';
+import authMiddleware from '../middleware/authMiddleware.js';
 
 const UsersRouter = express.Router();
 
-// TODO: figure out how to load jwt secret during build
-// expressjwt({ secret: process.env.JWT_SECRET!, algorithms: ['HS256'] })
 UsersRouter
   // admin only
-  .get('/', () => {})
+  .get('/', authMiddleware, (req, res) => { res.sendStatus(200) })
   // admin or matching user
-  .get('/:userId', () => {})
+  .get('/:userId', authMiddleware, (req, res) => { res.sendStatus(200) })
   // admin or matching user
-  .put('/:userId', () => {})
+  .put('/:userId', authMiddleware, (req, res) => { res.sendStatus(200) })
   // admin or matching user
-  .delete('/:userId', () => {});
+  .delete('/:userId', authMiddleware, (req, res) => { res.sendStatus(200) });
   
 export default UsersRouter;

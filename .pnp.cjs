@@ -2926,27 +2926,6 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
-    ["express-jwt", [\
-      ["npm:8.5.1", {\
-        "packageLocation": "../../../AppData/Local/Yarn/Berry/cache/express-jwt-npm-8.5.1-1a419c5e34-10c0.zip/node_modules/express-jwt/",\
-        "packageDependencies": [\
-          ["@types/jsonwebtoken", "npm:9.0.10"],\
-          ["express-jwt", "npm:8.5.1"],\
-          ["express-unless", "npm:2.1.3"],\
-          ["jsonwebtoken", "npm:9.0.2"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["express-unless", [\
-      ["npm:2.1.3", {\
-        "packageLocation": "../../../AppData/Local/Yarn/Berry/cache/express-unless-npm-2.1.3-d6cee0af30-10c0.zip/node_modules/express-unless/",\
-        "packageDependencies": [\
-          ["express-unless", "npm:2.1.3"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
     ["fast-xml-parser", [\
       ["npm:5.2.5", {\
         "packageLocation": "../../../AppData/Local/Yarn/Berry/cache/fast-xml-parser-npm-5.2.5-4fd49da1b5-10c0.zip/node_modules/fast-xml-parser/",\
@@ -5195,7 +5174,6 @@ const RAW_RUNTIME_STATE =
           ["@types/node", "npm:24.7.0"],\
           ["dotenv", "npm:17.2.3"],\
           ["express", "npm:5.1.0"],\
-          ["express-jwt", "npm:8.5.1"],\
           ["jsonwebtoken", "npm:9.0.2"],\
           ["jwt-decode", "npm:4.0.0"],\
           ["nodemon", "npm:3.1.10"],\

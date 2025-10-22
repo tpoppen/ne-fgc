@@ -1,6 +1,5 @@
 import { CognitoIdentityProviderClient } from '@aws-sdk/client-cognito-identity-provider';
 import { createHmac } from 'crypto';
-import { jwtDecode } from 'jwt-decode';
 
 const BuildCognitoSingleton = () => {
   let client: CognitoIdentityProviderClient;
@@ -22,17 +21,6 @@ const BuildCognitoSingleton = () => {
         .update(`${username}${clientID}`)
         .digest('base64');
       return hash;
-    },
-    getAccessTokenFromAuthHeader: (authHeader: string | undefined) => {
-      if (authHeader) {
-        const [prefix, token] = authHeader.split(' ');
-        if (prefix === 'Bearer') {
-          const jwtPayload = jwtDecode(token) as { accessToken: string };
-          return jwtPayload.accessToken;
-        }
-      }
-
-      return undefined;
     },
   }
 }
