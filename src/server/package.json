@@ -6,12 +6,15 @@
     "build": "tsc --build -v",
     "watch": "nodemon src/index.ts",
     "start": "nodemon src/index.ts",
-    "start:prod": "node ./dist/index.js"
+    "start:prod": "node ./dist/index.js",
+    "db:migrate": "node ./dist/db/migrator.js",
+    "db:migrate:down": "node ./dist/db/migrator.js --down"
   },
   "devDependencies": {
     "@types/express": "^5",
     "@types/jsonwebtoken": "^9",
     "@types/node": "^24.7.0",
+    "mri": "^1.2.0",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
@@ -19,6 +22,7 @@
   "dependencies": {
     "@aws-sdk/client-cognito-identity-provider": "^3.913.0",
     "@aws-sdk/client-dynamodb": "^3.914.0",
+    "@aws-sdk/credential-providers": "^3.918.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",

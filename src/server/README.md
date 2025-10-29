@@ -3,6 +3,12 @@
 ## TODO: 
 
 - Add DynamoDB user integration
+  - dynamo db client? 
+  - or dynamo db document client?
+
+- FIX: watch and dev start commands
+      - Local Docker env is f'd, need to figure out how to fix this stuff
+
 - Add Permissions to JWT
 
 - Migrate session to http only cookie?

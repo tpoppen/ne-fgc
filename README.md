@@ -11,7 +11,7 @@ TODO:
     - Design Event schemas
     - Design Gear schemas
 
-
+- Eventually... figure out how to set up root docker container stuff, with local dynamo db
 
 FEATURES:
 
