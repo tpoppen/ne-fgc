@@ -6,3 +6,4 @@ node_modules/
 src/server/dist/
 public/*.js
 public/*.js.map
+**/tsconfig.tsbuildinfo

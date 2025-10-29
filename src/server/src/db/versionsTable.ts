@@ -133,8 +133,9 @@ const removeMigrationRecord = async (client: DynamoDBClient, recordName: string)
 
   try {
     const response = await client.send(removeItemCommand);
-    console.log({ response });
-    return true;
+    if (response.$metadata.httpStatusCode === 200) {
+      return true;
+    }
   } catch (error) {
     console.log(`Failed to add ${recordName} to Versions Table`);
   }

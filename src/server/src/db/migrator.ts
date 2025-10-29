@@ -31,6 +31,7 @@ if (versionsTableInfo.status !== TableStatus.ACTIVE) {
 // load migrations that have already ran
 const ranMigrations = await getMigrationRecords(client);
 const migrationFiles = fs.readdirSync(migrationsPath);
+console.log({ ranMigrations, migrationFiles });
 
 const MigrateUp = () => {
   // iterate over migration files executing only those that have not ran yet
@@ -46,7 +47,6 @@ const MigrateUp = () => {
       console.log(`Importing ${fileName}`);
       const migrationImport = await import(`./migrations/${fileName}`) as ModuleImport;
       const migration = migrationImport.default;
-      console.log({ migration });
 
       console.log(`Running ${fileName} UP`);
       const result = await migration.up(client);
