@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 
 import ApiRouter from './routers/api.js';
 import cognitoIdentityProviderClient from './utils/cognitoIdentityProviderClient.js';
+import dynamoDbClientProvider from './db/dynamoDbClientProvider.js';
 
 dotenv.config();
 
@@ -19,10 +20,11 @@ const index_path = path.join(publicPath, 'index.html');
 
 // Initialize utils, database, etc etc
 cognitoIdentityProviderClient.init();
+dynamoDbClientProvider.init();
 
 // register middleware
 app.use('/', (req, res, next) => {
-  console.log("fielding request");
+
   next();
 });
 

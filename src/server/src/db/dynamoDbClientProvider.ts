@@ -6,6 +6,7 @@ const ClientBuilder = () => {
 
   return {
     init: () => {
+      // TODO: configure this to work for prod version of the app
       const config: DynamoDBClientConfig = {
         region: process.env.AWS_REGION,
         credentials: fromIni({

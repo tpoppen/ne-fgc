@@ -103,7 +103,7 @@ const addMigrationRecord = async (client: DynamoDBClient, recordName: string): P
   console.log("Adding migration to Versions Table");
   const addItemCommand = new PutItemCommand({
     TableName: getVersionsTableName(),
-    Item: { Migration: { 'S': recordName } }
+    Item: { Migration: { S: recordName } }
   });
 
   try {
@@ -121,7 +121,7 @@ const addMigrationRecord = async (client: DynamoDBClient, recordName: string): P
 const removeMigrationRecord = async (client: DynamoDBClient, recordName: string): Promise<boolean> => {
   const removeItemCommand = new DeleteItemCommand({
     TableName: getVersionsTableName(),
-    Key: { Migration: { 'S': recordName } }
+    Key: { Migration: { S: recordName } }
   });
 
   try {

@@ -4,7 +4,7 @@ import { TableStatus } from '@aws-sdk/client-dynamodb';
 import dotenv from 'dotenv';
 import mri from 'mri';
 
-import clientBuilder from './clientBuilder.js';
+import clientBuilder from './dynamoDbClientProvider.js';
 import { addMigrationRecord, ensureVersionsTable, getMigrationRecords, removeMigrationRecord } from './versionsTable.js';
 import { Migration } from './migrationTypes.js';
 

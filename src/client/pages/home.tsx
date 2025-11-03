@@ -16,6 +16,12 @@ const Home = () => {
               <Typography.Text>December 8, 2025</Typography.Text>
               <Typography.Text>123 Test St.</Typography.Text>
               <Typography.Text>Omaha, NE 68130</Typography.Text>
+              <Typography.Text><strong>Games</strong></Typography.Text>
+              <ul>
+                {['Tekken 8', 'Street Fighter 6', 'FF: COTW'].map((game) => (
+                  <li key={game}>{game}</li>
+                ))}
+              </ul> 
             </Flex>
           </Card>
         )}
