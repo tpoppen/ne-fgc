@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 import { Button, Flex, Layout, Menu, Segmented, Typography } from 'antd';
 import { ItemType } from 'antd/es/menu/interface';
@@ -38,13 +38,23 @@ type HeaderProps = {
 const Header = ({ theme, onThemeChange }: HeaderProps) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [navItems, setNavItems] = useState(BaseMenuItems);
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (loggedIn) {
       setNavItems([...BaseMenuItems, { ...AccountMenuItem, disabled: false }]);
     } else {
       setNavItems([...BaseMenuItems, { ...AccountMenuItem, disabled: true }]);
     }
-  }, [loggedIn])
+  }, [loggedIn]);
+
+  const loginLogoutClicked = () => {
+    if (loggedIn) {
+      // todo: end session, redirect
+    } else {
+      navigate('/login');
+    }
+  }
   
   return (
     <Layout.Header style={{ height: 'revert', padding: 0 }}>
@@ -55,7 +65,7 @@ const Header = ({ theme, onThemeChange }: HeaderProps) => {
         <Typography.Title level={1} style={{ flexGrow: 1, fontSize: 96, fontFamily: 'olibrick', color: '#efefef' }}>NE FGC</Typography.Title>
         <Flex vertical style={{ alignSelf: 'end' }}>
           <div>
-            <Button type='primary' shape="round" size='large' onClick={(() => setLoggedIn(!loggedIn))}>
+            <Button type='primary' shape="round" size='large' onClick={loginLogoutClicked}>
               {loggedIn ? 'Logout' : 'Login'}
               <UserOutlined />
             </Button>

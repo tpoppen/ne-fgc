@@ -3,6 +3,8 @@ import dynamoDbClientProvider from "../db/dynamoDbClientProvider.js";
 import { getTableName, PRIMARY_KEY } from "../db/neFGCTable.js";
 import { isSuccessStatus } from "../utils/httpStatusHelper.js";
 
+// TODO - Feature: add profile pictures eventually
+
 const fetchUsers = async () => {
   // TODO: build a batch item get that uses a wildcard on USER# keys match
 };
@@ -30,8 +32,6 @@ const fetchUser = async (fetchParams: FetchUserParams) => {
     return false;
   }
 };
-
-// Feature: add profile pictures eventually
 
 type CreateUserParams = {
   userId: string,
