@@ -8,7 +8,7 @@
     "start": "nodemon src/index.ts",
     "start:prod": "node ./dist/index.js",
     "db:migrate": "node ./dist/db/migrator.js",
-    "db:migrate:down": "node ./dist/db/migrator.js --down"
+    "db:migrate:undo": "node ./dist/db/migrator.js --down"
   },
   "devDependencies": {
     "@types/express": "^5",

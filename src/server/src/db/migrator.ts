@@ -51,7 +51,7 @@ const MigrateUp = () => {
       console.log(`Running ${fileName} UP`);
       const result = await migration.up(client);
       if (!result.success) {
-        console.log(`Migration ${fileName} FAILED`);
+        console.log(`Migration ${fileName} FAILED: ${result.message}`);
         console.log('Exiting migration script');
         process.exit(1);
       }
@@ -79,12 +79,11 @@ const MigrateDown = async () => {
         console.log(`Importing ${undoMigration}`);
         const migrationImport = await import(`./migrations/${undoMigration}`) as ModuleImport;
         const migration = migrationImport.default;
-        console.log({ migration });
 
         console.log(`Running ${undoMigration} DOWN`);
         const result = await migration.down(client);
         if (!result.success) {
-          console.log(`Migration ${undoMigration} FAILED`);
+          console.log(`Migration ${undoMigration} FAILED: ${result.message}`);
           console.log('Exiting migration script');
           process.exit(1);
         }

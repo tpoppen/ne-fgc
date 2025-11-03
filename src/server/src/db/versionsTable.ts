@@ -1,4 +1,5 @@
 import { CreateTableCommand, DynamoDBClient, DescribeTableCommand, ScanCommand, TableStatus, BillingMode, PutItemCommand, TableClass, KeyType, ScalarAttributeType, DeleteItemCommand } from "@aws-sdk/client-dynamodb";
+import sleep from "../utils/sleep.js";
 
 const VERSIONS_TABLE_NAME='NE-FGC-DB-SCHEMA-VERSIONS';
 
@@ -9,10 +10,6 @@ type TableDescription = {
   status: string | undefined;
   itemCount: number | undefined;
 }
-
-const sleep = (ms: number) => new Promise((res) => {
-  setTimeout(res, ms);
-})
 
 const checkTableStatus = async (client: DynamoDBClient): Promise<TableDescription> => {
   const describeTable = new DescribeTableCommand({
@@ -40,12 +37,10 @@ const createVersionsTable = async (client: DynamoDBClient): Promise<TableDescrip
     TableName: getVersionsTableName(),
     TableClass: TableClass.STANDARD,
     BillingMode: BillingMode.PAY_PER_REQUEST,
-    AttributeDefinitions: [
-      {
-        AttributeName: 'Migration',
-        AttributeType: ScalarAttributeType.S,
-      }
-    ],
+    AttributeDefinitions: [{
+      AttributeName: 'Migration',
+      AttributeType: ScalarAttributeType.S,
+    }],
     KeySchema: [{
       AttributeName: 'Migration',
       KeyType: KeyType.HASH,
@@ -76,7 +71,6 @@ const ensureVersionsTable = async (client: DynamoDBClient): Promise<TableDescrip
   let tableDescription: TableDescription = { name: '', status: '', itemCount: 0 };
   while (tableDescription.status != TableStatus.ACTIVE && pollCount < 10) {
     pollCount++;
-    console.log("Checking Table Status");
     tableDescription = await checkTableStatus(client);
     if (tableDescription.status === TableStatus.ACTIVE) {
       return tableDescription
@@ -86,8 +80,7 @@ const ensureVersionsTable = async (client: DynamoDBClient): Promise<TableDescrip
       tableDescription = await createVersionsTable(client);
     }
     
-    console.log({ tableDescription });
-    await sleep(5000);
+    await sleep(2000);
   }
 
   return tableDescription;

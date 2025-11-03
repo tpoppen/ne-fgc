@@ -1,10 +1,17 @@
 
+/**
+ * User model: Takes DynamoDB Object response to build a User model
+ * Properties:
+ * - id
+ * - username
+ * - email
+ * - nickname
+ * 
+ */
 class User {
-
+  constructor(userData: Object) {
+      
+  }
 }
 
-const getUser = (id: string) => {
-    // return instance of user class
-}
-
-export { User, getUser };
+export default User;
