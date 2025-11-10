@@ -1,10 +1,10 @@
-const getJWTFromAuthHeader = (authHeader: string) => {
+const getJWTFromAuthHeader = (authHeader: string | undefined) => {
+  if (!authHeader) { return undefined; }
+
   const [prefix, token] = authHeader.split(' ');
-  if (prefix === 'Bearer') {
-    return token;
-  } else {
-    return undefined
-  }
+  if (prefix === 'Bearer') { return token; }
+
+  return undefined;
 }
 
 export default getJWTFromAuthHeader;

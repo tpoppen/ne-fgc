@@ -1,27 +1,29 @@
 import type { Request, Response, NextFunction } from "express"
-import JWT from 'jsonwebtoken';
 import getJWTFromAuthHeader from "../utils/getJWTFromAuthHeader.js";
-import JWTContents from "../../@customTypes/jwtContents.js";
+import cognitoJWTVerifier from "../utils/cognitoJWTVerifier.js";
 
 // TODO: adapt for cookie?
 // const token = req.cookies.auth_token;
 
-const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
-  if (authHeader) {
-    const token = getJWTFromAuthHeader(authHeader);
-    if (token) {
-      JWT.verify(token, process.env.JWT_SECRET!, (err, jwtHash) => {
-        if (err) {
-          return res.sendStatus(403);
-        }
-        req.auth = jwtHash as JWTContents;
-        next();
-      });
+  const token = getJWTFromAuthHeader(authHeader || '');
+  if (authHeader && token) {
+    const verifier = cognitoJWTVerifier.getJWTVerifier();
+
+    try {
+      const payload = await verifier.verify(token);
+      console.log({ payload });
+      // VALID TOKEN
+      return next();
+    } catch (error) {
+      // INVALID TOKEN
+      console.log({ authError: error });
+      return res.sendStatus(403);
     }
   }
-  
-  res.sendStatus(401);  
+
+  return res.sendStatus(401);
 }
 
 export default authMiddleware;

@@ -35,12 +35,14 @@ const CreateUser = async (userParams: CreateUserParams) => {
 
   try {
     const signUpResult = await client.send(signUpCommand);
-    console.log({ signUpResult });
     const userId = signUpResult.UserSub!;
+    console.log({ signUpResult, userId });
     const createUserResult = await createUser({ userId, ...userParams });
+    console.log({ createUserResult });
     return signUpResult;
   } catch (error) {
     // TODO: idk man
+    console.log({ error });
     throw error;
   }
 }

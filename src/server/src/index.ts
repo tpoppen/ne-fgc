@@ -1,10 +1,11 @@
-import express, { json } from 'express';
+import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
 
 import ApiRouter from './routers/api.js';
 import cognitoIdentityProviderClient from './utils/cognitoIdentityProviderClient.js';
 import dynamoDbClientProvider from './db/dynamoDbClientProvider.js';
+import cognitoJWTVerifier from './utils/cognitoJWTVerifier.js';
 
 dotenv.config();
 
@@ -20,15 +21,15 @@ const index_path = path.join(publicPath, 'index.html');
 
 // Initialize utils, database, etc etc
 cognitoIdentityProviderClient.init();
+cognitoJWTVerifier.init();
 dynamoDbClientProvider.init();
 
 // register middleware
-app.use('/', (req, res, next) => {
+// app.use('/', (req, res, next) => {
+//   next();
+// });
 
-  next();
-});
-
-app.use(json());
+app.use(express.json());
 
 // register api routes
 app.use('/api', ApiRouter);

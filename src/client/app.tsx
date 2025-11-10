@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router";
-import { ConfigProvider, Layout } from 'antd';
+import { ConfigProvider, Layout, notification } from 'antd';
 
 import darkTheme from './themes/ne-dark-theme';
 import lightTheme from './themes/ne-theme';
@@ -37,9 +37,12 @@ const AppLayout = () => {
 
 const App = () => {
   const [useDark, setTheme] = useState(true);
+  const [api, contextHolder] = notification.useNotification();
 
   return (
     <ThemeContext.Provider value={{ useDark, setTheme }}>
+      {/* TODO: fix the notifications pop ups to work across the whole application */}
+      {contextHolder}
       <ConfigProvider theme={useDark ? darkTheme : lightTheme}>
         <BrowserRouter>
           <Routes>
@@ -58,7 +61,7 @@ const App = () => {
         </BrowserRouter>
       </ConfigProvider>
     </ThemeContext.Provider>
-  )
+  );
 }
 
 export default App;

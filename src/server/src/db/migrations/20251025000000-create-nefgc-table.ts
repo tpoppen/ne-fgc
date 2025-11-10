@@ -1,6 +1,6 @@
 import { BillingMode, CreateTableCommand, DeleteTableCommand, DescribeTableCommand, DynamoDBClient, KeyType, ScalarAttributeType, TableClass, TableStatus } from "@aws-sdk/client-dynamodb";
 import { Migration } from "../migrationTypes.js";
-import { getTableName, PRIMARY_KEY } from "../neFGCTable.js";
+import { getTableName, GS1, PRIMARY_KEY } from "../neFGCTable.js";
 import sleep from "../../utils/sleep.js";
 
 const pollForTableStatus = async (client: DynamoDBClient, status: TableStatus): Promise<boolean> => {
@@ -28,6 +28,12 @@ const migration: Migration = {
       }, {
         AttributeName: PRIMARY_KEY.SK,
         AttributeType: ScalarAttributeType.S,
+      }, {
+        AttributeName: GS1.PK,
+        AttributeType: ScalarAttributeType.S,
+      }, {
+        AttributeName: GS1.SK,
+        AttributeType: ScalarAttributeType.S,
       }],
       KeySchema: [{
         AttributeName: PRIMARY_KEY.PK,
@@ -35,6 +41,17 @@ const migration: Migration = {
       }, {
         AttributeName: PRIMARY_KEY.SK,
         KeyType: KeyType.RANGE,
+      }],
+      GlobalSecondaryIndexes: [{
+        IndexName: GS1.INDEX_NAME,
+        KeySchema: [{
+          AttributeName: GS1.PK,
+          KeyType: 'HASH',
+        }, {
+          AttributeName: GS1.SK,
+          KeyType: 'RANGE',
+        }],
+        Projection: { ProjectionType: 'ALL' }
       }]
     });
 
@@ -45,7 +62,7 @@ const migration: Migration = {
       while (!isActive && pollCount < 10) {
         pollCount++;
         isActive = await pollForTableStatus(client, TableStatus.ACTIVE);
-        if (!isActive) { await sleep(2000); }
+        if (!isActive) { await sleep(5000); }
       }
 
       return { success: isActive, message: '' };

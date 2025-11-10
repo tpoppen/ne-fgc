@@ -1,16 +1,75 @@
-import { Card, Input, Flex, Layout, Typography, Button, Divider } from "antd";
-import { Link } from "react-router";
+import { Card, Input, Flex, Layout, Typography, Button, Divider, notification } from "antd";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router";
 
 const RecoverAccount = () => {
+  const navigate = useNavigate();
+  const [api, contextHolder] = notification.useNotification();
+  const [username, setUsername] = useState('');
+  
+  const [confirming, setConfirming] = useState(false);
+  const [password, setPassword] = useState('');
+  const [verifyPassword, setVerifyPassword] = useState('');
+  const [confirmationCode, setConfirmationCode] = useState('');
+
+  const submitForgot = () => {
+    // TODO: put validation on fields themselves
+    if (!username) { return; }
+
+    fetch('/api/sessions/forgot_password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username })
+    }).then((resp) => {
+      setConfirming(true);
+      console.log({ resp });
+    }).catch((error) => {
+      console.log({ error });
+    });
+  }
+
+  const submitConfirm = () => {
+    // TODO: put validation on fields themselves
+    if (!password && password !== verifyPassword) { return; }
+    if (!confirmationCode) { return }
+
+    fetch('/api/sessions/forgot_password_confirm', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password, confirmationCode })
+    }).then((resp) => {
+      console.log({ resp });
+      api.info({
+        message: 'Successfully Reset Password',
+        placement: 'bottom',
+      });
+      navigate('/login');
+    }).catch((error) => {
+      console.log({ error });
+    });
+  }
+
   return (
     <Layout style={{ height: '100%' }}>
       <Card style={{ maxWidth: 500, margin: 'auto' }}>
         <Flex vertical gap={8}>
           <Typography.Title level={1}>NE FGC</Typography.Title>
           <Divider style={{ margin: 4 }} />
-          <Typography.Title level={2}>Account Recovery</Typography.Title>
-          <Input placeholder="Email" />
-          <Button type="primary">Send Recovery Email</Button>
+          {confirming ? (
+            <>
+              <Typography.Title level={2}>Confirm New Password</Typography.Title>
+              <Input placeholder="Confirmation Code" onChange={(e) => setConfirmationCode(e.target.value)} />
+              <Input placeholder="New Password" type="password" onChange={(e) => setPassword(e.target.value)} />
+              <Input placeholder="Verify Password" type="password" onChange={(e) => setVerifyPassword(e.target.value)}/>
+              <Button type="primary" onClick={submitConfirm}>Reset Password</Button>
+            </>
+          ): (
+            <>
+              <Typography.Title level={2}>Account Recovery</Typography.Title>
+              <Input placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
+              <Button type="primary" onClick={submitForgot}>Send Recovery Email</Button>
+            </>
+          )}
           <Typography.Text>
             Know your account credentials? <Link to="/login">Login</Link>
           </Typography.Text>
