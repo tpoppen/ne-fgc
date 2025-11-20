@@ -4,6 +4,7 @@ import express from 'express';
 import CreateUser from '../services/users/createUser.js';
 import cognitoIdentityProviderClient from '../utils/cognitoIdentityProviderClient.js';
 import getJWTFromAuthHeader from '../utils/getJWTFromAuthHeader.js';
+import { jwtDecode } from 'jwt-decode';
 
 const SessionsRouter = express.Router();
 
@@ -67,7 +68,8 @@ SessionsRouter
       const { AccessToken, RefreshToken } = result.AuthenticationResult as AuthenticationResultType;
       // TODO: cache refresh token
       // TODO: build list of permissions to pass to client as well
-      res.status(200).send({ token: AccessToken, permissions: [] });
+      const userInfo = jwtDecode(AccessToken!);
+      res.status(200).send({ userId: userInfo.sub!, token: AccessToken, permissions: [] });
     } catch (error: NotAuthorizedException | any) {
       if (error.$response?.statusCode === 400) {
         console.log({ resp: error.$response });

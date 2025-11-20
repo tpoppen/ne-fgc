@@ -1,6 +1,7 @@
 import { createContext } from "react";
 
 export type UserSessionInfo = {
+  userId: string;
   token: string;
   permissions: string[];
 }

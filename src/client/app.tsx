@@ -58,7 +58,7 @@ const App = () => {
 
   // load session info from local storage if present
   useEffect(() => {
-    const sessionInfoString =localStorage.getItem(SESSION_KEY);
+    const sessionInfoString = localStorage.getItem(SESSION_KEY);
     if (sessionInfoString) {
       try {
         const sessionInfo = JSON.parse(sessionInfoString);

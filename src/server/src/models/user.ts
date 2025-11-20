@@ -8,9 +8,21 @@
  * - nickname
  * 
  */
+
+import { AttributeValue } from "@aws-sdk/client-dynamodb";
+
 class User {
-  constructor(userData: Object) {
-      
+  nickname: string;
+  username: string;
+  id: string;
+  email: string;
+
+  constructor(userData: Record<string, AttributeValue>) {
+    console.log(userData.nickname)
+    this.nickname = userData.nickname.S!;
+    this.username = userData.username.S!;
+    this.email = userData.email.S!;
+    this.id = userData.id.S!
   }
 }
 

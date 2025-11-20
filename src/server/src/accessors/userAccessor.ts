@@ -2,6 +2,7 @@ import { DeleteItemCommand, GetItemCommand, PutItemCommand, QueryCommand, Scalar
 import dynamoDbClientProvider from "../db/dynamoDbClientProvider.js";
 import { getTableName, GS1, PRIMARY_KEY } from "../db/neFGCTable.js";
 import { isSuccessStatus } from "../utils/httpStatusHelper.js";
+import User from "../models/user.js";
 
 // TODO - Feature: add profile pictures eventually
 
@@ -44,7 +45,8 @@ const fetchUser = async (fetchParams: FetchUserParams) => {
   try {
     const result = await dbClient.send(getUser);
     console.log({ result });
-    return isSuccessStatus(result.$metadata.httpStatusCode);
+    const user = new User(result.Item!);
+    return user;
   } catch (error) {
     console.log('USER FETCH FAILURE', error);
     return false;

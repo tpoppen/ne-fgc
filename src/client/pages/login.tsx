@@ -17,10 +17,12 @@ const Login = () => {
       body: JSON.stringify({ username, password })
     }).then(async (resp) => {
       const session = await resp.json() as UserSessionInfo;
+      console.log({ session });
       setUserSession(session);
       navigate('/');
     }).catch((error) => {
       console.log({ error });
+      // TODO: show error message on failed login
     });
   }
 
