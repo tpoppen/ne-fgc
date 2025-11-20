@@ -14,7 +14,6 @@ UsersRouter
   // admin or matching user
   .get('/:userId', authMiddleware, async (req, res) => {
     const user = await fetchUser({ userId: req.params.userId });
-    console.log({ user });
     res.status(200).send(user);
   })
   // admin or matching user

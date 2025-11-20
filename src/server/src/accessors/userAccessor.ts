@@ -4,8 +4,6 @@ import { getTableName, GS1, PRIMARY_KEY } from "../db/neFGCTable.js";
 import { isSuccessStatus } from "../utils/httpStatusHelper.js";
 import User from "../models/user.js";
 
-// TODO - Feature: add profile pictures eventually
-
 const U_PK = 'USERS';
 
 const fetchUsers = async () => {
@@ -44,7 +42,6 @@ const fetchUser = async (fetchParams: FetchUserParams) => {
 
   try {
     const result = await dbClient.send(getUser);
-    console.log({ result });
     const user = new User(result.Item!);
     return user;
   } catch (error) {
