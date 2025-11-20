@@ -11,8 +11,11 @@ SessionsRouter
   .post('/sign_up', async (req, res) => {
     try {
       const result = await CreateUser(req.body);
-      res.json(result).send();
+      res.status(201).json(result).send();
     } catch (error: Error | any) {
+      // TODO: handle various errors,
+      // inspect aws error for more specific error details
+      console.log({ error });
       res.status(500).send();
     }
   })
@@ -34,6 +37,9 @@ SessionsRouter
       console.log({ result });
       res.status(200).send();
     } catch (error) {
+      // TODO: handle various errors,
+      // inspect aws error for more specific error details
+      console.log({ error });
       res.status(500).send();
     }
   })
@@ -54,22 +60,14 @@ SessionsRouter
     });
 
     try {
+      console.log("sending login request");
       const result = await client.send(confirmCommand);
       console.log({ result });
 
       const { AccessToken, RefreshToken } = result.AuthenticationResult as AuthenticationResultType;
       // TODO: cache refresh token
-      res.cookie('auth_token', AccessToken, {
-        // no js access
-        httpOnly: true, 
-        // only over HTTPS if prod
-        secure: process.env.NODE_ENV === 'production',
-        // 1 hour
-        maxAge: 3600000,
-        sameSite: 'strict'
-      });
-
-      res.status(200).send({ token: AccessToken });
+      // TODO: build list of permissions to pass to client as well
+      res.status(200).send({ token: AccessToken, permissions: [] });
     } catch (error: NotAuthorizedException | any) {
       if (error.$response?.statusCode === 400) {
         console.log({ resp: error.$response });
@@ -94,10 +92,12 @@ SessionsRouter
       await client.send(confirmCommand);
       res.status(200).json({ message: 'Successfully Logged Out'}).send();
     } catch (error) {
+      // TODO: handle various errors,
+      // inspect aws error for more specific error details
       console.log({ error });
       res.status(500).send();
     }
-  }).post('/forgot_password', async (req, res) => {
+  }).post('/reset_password', async (req, res) => {
     const { username } = req.body;
 
     const client = cognitoIdentityProviderClient.getClient();
@@ -108,14 +108,15 @@ SessionsRouter
     });
 
     try {
-      const response = await client.send(forgotPassword);
+      await client.send(forgotPassword);
       res.status(200).send();
     } catch (error) {
-      // TODO: handle error better, inspect aws error
+      // TODO: handle various errors,
+      // inspect aws error for more specific error details
       console.log({ error });
       res.status(500).send();
     }
-  }).post('/forgot_password_confirm', async (req, res) => {
+  }).post('/reset_password', async (req, res) => {
     const { username, password, confirmationCode } = req.body;
 
     const client = cognitoIdentityProviderClient.getClient();
@@ -128,10 +129,11 @@ SessionsRouter
     });
 
     try {
-      const response = await client.send(forgotPasswordConfirm);
+      await client.send(forgotPasswordConfirm);
       res.status(200).send();
     } catch (error) {
-      // TODO: handle error better, inspect aws error
+      // TODO: handle various errors,
+      // inspect aws error for more specific error details
       console.log({ error });
       res.status(500).send();
     }

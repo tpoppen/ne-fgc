@@ -1,26 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
 
 import { Button, Flex, Layout, Menu, Segmented, Typography } from 'antd';
 import { ItemType } from 'antd/es/menu/interface';
-import { MoonOutlined, SunOutlined, UserOutlined } from '@ant-design/icons';
+import { CalendarOutlined, ClockCircleOutlined, MoonOutlined, PictureOutlined, SunOutlined, TagOutlined, UserOutlined } from '@ant-design/icons';
+import UserSessionContext from '../utils/userContext';
+import buildHeaders from '../utils/buildHeaders';
 
 const BaseMenuItems: ItemType[] = [
   {
     key: 'home',
-    label: <Link to="/home">Events</Link>
+    label: <Link to="/home">Events</Link>,
+    icon: <CalendarOutlined />
   },
   {
     key: 'gear-rental',
-    label: <Link to='/gear-rental'>Gear Rental</Link>
+    label: <Link to='/gear-rental'>Gear Rental</Link>,
+    icon: <ClockCircleOutlined />
   },
   {
     key: 'gallery',
-    label: <Link to="/gallery">Gallery</Link>
+    label: <Link to="/gallery">Gallery</Link>,
+    icon: <PictureOutlined />
   },
   {
     key: 'commissions',
-    label: <Link to="/repairs-and-commissions">Repairs and Commissions</Link>
+    label: <Link to="/repairs-and-commissions">Repairs and Commissions</Link>,
+    icon: <TagOutlined />
   }
 ];
 
@@ -36,24 +42,34 @@ type HeaderProps = {
 }
 
 const Header = ({ theme, onThemeChange }: HeaderProps) => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const { setUserSession, userSession } = useContext(UserSessionContext);
   const [navItems, setNavItems] = useState(BaseMenuItems);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (loggedIn) {
-      setNavItems([...BaseMenuItems, { ...AccountMenuItem, disabled: false }]);
+    if (userSession) {
+      setNavItems([...BaseMenuItems, AccountMenuItem]);
     } else {
-      setNavItems([...BaseMenuItems, { ...AccountMenuItem, disabled: true }]);
+      setNavItems([...BaseMenuItems]);
     }
-  }, [loggedIn]);
+  }, [userSession]);
 
-  const loginLogoutClicked = () => {
-    if (loggedIn) {
-      // todo: end session, redirect
-    } else {
-      navigate('/login');
+  const loginLogoutClicked = async () => {
+    if (userSession) {
+      try {
+        await fetch('/api/sessions/logout', {
+          headers: buildHeaders(userSession.token),
+          method: 'POST'
+        });
+
+        setUserSession(undefined);
+      } catch (error) {
+        // TODO: log failure to logout somewhere
+        console.log({ error });
+      }   
     }
+
+    navigate('/login');
   }
   
   return (
@@ -66,7 +82,7 @@ const Header = ({ theme, onThemeChange }: HeaderProps) => {
         <Flex vertical style={{ alignSelf: 'end' }}>
           <div>
             <Button type='primary' shape="round" size='large' onClick={loginLogoutClicked}>
-              {loggedIn ? 'Logout' : 'Login'}
+              {userSession ? 'Logout' : 'Login'}
               <UserOutlined />
             </Button>
           </div>
@@ -84,7 +100,6 @@ const Header = ({ theme, onThemeChange }: HeaderProps) => {
           </div>
         </Flex>
       </Flex>
-      <style blocking='render'>{`.menu li:nth-last-child(2) { margin-left: auto; }`}</style>
       <Menu className='menu' mode="horizontal" items={navItems} />
     </Layout.Header>
   )

@@ -3439,6 +3439,7 @@ const RAW_RUNTIME_STATE =
           ["antd", "virtual:33f46d184c34877a1299a8e66f1d8a16f481f492eecaffd37bc0be602a80fb4aaec055362e9a28efb16302c8398a2d2fb49b14088898b294c38bab6c2fd586c6#npm:5.27.4"],\
           ["client", "workspace:src/client"],\
           ["esbuild", "npm:0.25.10"],\
+          ["jwt-decode", "npm:4.0.0"],\
           ["mri", "npm:1.2.0"],\
           ["react", "npm:19.2.0"],\
           ["react-dom", "virtual:33f46d184c34877a1299a8e66f1d8a16f481f492eecaffd37bc0be602a80fb4aaec055362e9a28efb16302c8398a2d2fb49b14088898b294c38bab6c2fd586c6#npm:19.2.0"],\

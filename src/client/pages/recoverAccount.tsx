@@ -1,10 +1,11 @@
 import { Card, Input, Flex, Layout, Typography, Button, Divider, notification } from "antd";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
+import NotificationContext from "../utils/notificationContext";
 
 const RecoverAccount = () => {
   const navigate = useNavigate();
-  const [api, contextHolder] = notification.useNotification();
+  const api = useContext(NotificationContext);
   const [username, setUsername] = useState('');
   
   const [confirming, setConfirming] = useState(false);
@@ -16,13 +17,17 @@ const RecoverAccount = () => {
     // TODO: put validation on fields themselves
     if (!username) { return; }
 
-    fetch('/api/sessions/forgot_password', {
+    fetch('/api/sessions/reset_password', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username })
     }).then((resp) => {
+      if (resp.status !== 200) {
+        console.log({ resp });
+        return;
+      }
+
       setConfirming(true);
-      console.log({ resp });
     }).catch((error) => {
       console.log({ error });
     });
@@ -33,15 +38,19 @@ const RecoverAccount = () => {
     if (!password && password !== verifyPassword) { return; }
     if (!confirmationCode) { return }
 
-    fetch('/api/sessions/forgot_password_confirm', {
+    fetch('/api/sessions/reset_password_confirm', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password, confirmationCode })
     }).then((resp) => {
-      console.log({ resp });
-      api.info({
+      if (resp.status !== 200) {
+        console.log({ resp });
+        return;
+      }
+
+      api.showNotification({
         message: 'Successfully Reset Password',
-        placement: 'bottom',
+        type: 'info',
       });
       navigate('/login');
     }).catch((error) => {

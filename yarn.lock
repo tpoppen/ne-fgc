@@ -2992,6 +2992,7 @@ __metadata:
     "@types/react-dom": "npm:^19"
     antd: "npm:^5.27.4"
     esbuild: "npm:^0.25.10"
+    jwt-decode: "npm:^4.0.0"
     mri: "npm:^1.2.0"
     react: "npm:^19.2.0"
     react-dom: "npm:^19.2.0"

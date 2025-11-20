@@ -1,9 +1,11 @@
 import { Card, Input, Flex, Layout, Typography, Button, Divider } from "antd";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
+import UserSessionContext, { UserSessionInfo } from "../utils/userContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { setUserSession } = useContext(UserSessionContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -13,8 +15,9 @@ const Login = () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password })
-    }).then((resp) => {
-      console.log({ resp });
+    }).then(async (resp) => {
+      const session = await resp.json() as UserSessionInfo;
+      setUserSession(session);
       navigate('/');
     }).catch((error) => {
       console.log({ error });
