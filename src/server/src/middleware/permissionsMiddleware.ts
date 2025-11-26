@@ -7,10 +7,7 @@ const addPermissionsMiddleware = async (
   next: NextFunction
 ) => {
   const user = await fetchUser({ userId: req.userId });
-  console.log({ permissionUser: user });
-  if (!user) { 
-    return res.status(401).send();
-  }
+  if (!user) { return res.status(401).send(); }
 
   req.permissions = user.permissions;
   next();

@@ -51,25 +51,24 @@ SessionsRouter
 
     const clientID = cognitoIdentityProviderClient.getClientID();
     const client = cognitoIdentityProviderClient.getClient();
-    const clientSecret = cognitoIdentityProviderClient.getSecretHash(username);
-    const confirmCommand = new InitiateAuthCommand({
+    const secretHash = cognitoIdentityProviderClient.getSecretHash(username);
+    const loginCommand = new InitiateAuthCommand({
       AuthFlow: AuthFlowType.USER_PASSWORD_AUTH,
       ClientId: clientID,
       AuthParameters: {
         USERNAME: username,
         PASSWORD: password,
-        SECRET_HASH: clientSecret,
+        SECRET_HASH: secretHash,
       }
     });
 
     try {
-      console.log("sending login request");
-      const result = await client.send(confirmCommand);
-      console.log({ result });
-
+      const result = await client.send(loginCommand);
+      
       const { AccessToken, RefreshToken } = result.AuthenticationResult as AuthenticationResultType;
       const userInfo = jwtDecode(AccessToken!);
       localCache.cacheItem(AccessToken!, RefreshToken!);
+
       res.status(200).send({
         token: AccessToken,
         userId: userInfo.sub!,

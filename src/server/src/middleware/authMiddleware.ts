@@ -1,4 +1,5 @@
 import { JwtExpiredError } from "aws-jwt-verify/error";
+import { GetTokensFromRefreshTokenCommand } from "@aws-sdk/client-cognito-identity-provider";
 import type { Request, Response, NextFunction } from "express"
 import { jwtDecode } from "jwt-decode";
 
@@ -6,33 +7,34 @@ import getJWTFromAuthHeader from "../utils/getJWTFromAuthHeader.js";
 import cognitoJWTVerifier from "../utils/cognitoJWTVerifier.js";
 import localCache from "../utils/localCache.js";
 import cognitoIdentityProviderClient from "../utils/cognitoIdentityProviderClient.js";
-import { GetTokensFromRefreshTokenCommand } from "@aws-sdk/client-cognito-identity-provider";
 
 const refreshAuthToken = async (refreshToken: string, username: string) => {
   const client = cognitoIdentityProviderClient.getClient();
   const clientID = cognitoIdentityProviderClient.getClientID();
   const secret = cognitoIdentityProviderClient.getClientSecret();
 
-  const command = new GetTokensFromRefreshTokenCommand({
+  const loginCommand = new GetTokensFromRefreshTokenCommand({
     ClientId: clientID,
     ClientSecret: secret,
     RefreshToken: refreshToken,
   });
 
   try { 
-    const response = await client.send(command);
-    console.log({ refreshResponse: response });
+    const response = await client.send(loginCommand);
+
     return {
       token: response.AuthenticationResult?.AccessToken!,
       refreshToken: response.AuthenticationResult?.RefreshToken!,
     }
   } catch (error) {
-    console.log({ RefreshAuthError: error });
+    // @ts-ignore
+    console.log({ RefreshAuthError: error, message: error.message });
     return;
   }
 }
 
 type AwsJwtPayload = {
+  sub: string;
   username: string;
 }
 
@@ -47,30 +49,30 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
 
     try {
       const payload = await verifier.verify(token);
-      console.log({ payload });
       req.userId = payload.sub;
+
       return next();
     } catch (error: any | JwtExpiredError) {
       // EXPIRED token: refresh token, verify, and call next()
-      console.log({ JWTError: error });
       if (error.message.includes('Token expired')) {
         // Get new token & refresh token
         const refreshToken = localCache.getCacheItem(token) as string | null;
         if (refreshToken) {
-          console.log({ refreshToken });
           // if valid cache info, attempt refresh and continue request
-          // TODO: fix InvalidParam error
-          console.log({ username });
-          const refreshResult = await refreshAuthToken(token, username);
+          const refreshResult = await refreshAuthToken(refreshToken, username);
           if (refreshResult) {
-            console.log({ refreshResult})
-            // cache new auth refresh token
             const { token: newToken, refreshToken: newRefreshToken } = refreshResult;
+            const payload = await verifier.verify(newToken);
+            
+            // cache new auth refresh token
             localCache.deleteCacheItem(token);
             localCache.cacheItem(newToken, newRefreshToken);
 
+            // set user id for scope of request
+            req.userId = payload.sub;
             // provide new auth token to client
             res.set('Authorization', `Bearer ${newToken}`);
+
             return next();
           }
         }

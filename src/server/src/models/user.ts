@@ -9,8 +9,8 @@ class User {
   permissions: string[];
 
   constructor(userData: Record<string, AttributeValue>) {
-    this.nickname = userData.nickname.S!;
-    this.username = userData.username.S!;
+    this.nickname = userData.nickname?.S!;
+    this.username = userData.username?.S!;
     this.email = userData.email.S!;
     this.id = userData.id.S!
     this.permissions = userData.permissions?.SS || [];

@@ -76,7 +76,6 @@ const createUser = async (createParams: CreateUserParams) => {
 
   try {
     const result = await dbClient.send(createUser);
-    console.log({ result });
     return isSuccessStatus(result.$metadata.httpStatusCode);
   } catch (error) {
     console.log('USER CREATE FAILURE', error);

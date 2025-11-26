@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 
 import { Button, Flex, Layout, Menu, Segmented, Typography } from 'antd';
 import { ItemType } from 'antd/es/menu/interface';
@@ -9,29 +9,29 @@ import { ApiContext } from '../utils/apiClientProvider';
 
 const BaseMenuItems: ItemType[] = [
   {
-    key: 'home',
+    key: '/home',
     label: <Link to="/home">Events</Link>,
     icon: <CalendarOutlined />
   },
   {
-    key: 'gear-rental',
+    key: '/gear-rental',
     label: <Link to='/gear-rental'>Gear Rental</Link>,
     icon: <ClockCircleOutlined />
   },
   {
-    key: 'gallery',
+    key: '/gallery',
     label: <Link to="/gallery">Gallery</Link>,
     icon: <PictureOutlined />
   },
   {
-    key: 'commissions',
+    key: '/repairs-and-commissions',
     label: <Link to="/repairs-and-commissions">Repairs and Commissions</Link>,
     icon: <TagOutlined />
   }
 ];
 
 const AccountMenuItem = {
-  key: 'account',
+  key: '/account',
   label: <Link to="/account">Account</Link>,
   icon: <UserOutlined />
 }
@@ -46,6 +46,7 @@ const Header = ({ theme, onThemeChange }: HeaderProps) => {
   const { userSession, setUserSession } = useContext(UserSessionContext);
   const [navItems, setNavItems] = useState(BaseMenuItems);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (userSession) {
@@ -97,7 +98,7 @@ const Header = ({ theme, onThemeChange }: HeaderProps) => {
           </div>
         </Flex>
       </Flex>
-      <Menu className='menu' mode="horizontal" items={navItems} />
+      <Menu className='menu' mode="horizontal" selectedKeys={[location.pathname]} items={navItems} />
     </Layout.Header>
   )
 };
