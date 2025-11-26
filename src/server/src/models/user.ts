@@ -1,14 +1,4 @@
 
-/**
- * User model: Takes DynamoDB Object response to build a User model
- * Properties:
- * - id
- * - username
- * - email
- * - nickname
- * 
- */
-
 import { AttributeValue } from "@aws-sdk/client-dynamodb";
 
 class User {
@@ -16,13 +6,14 @@ class User {
   username: string;
   id: string;
   email: string;
+  permissions: string[];
 
   constructor(userData: Record<string, AttributeValue>) {
-    console.log(userData.nickname)
     this.nickname = userData.nickname.S!;
     this.username = userData.username.S!;
     this.email = userData.email.S!;
     this.id = userData.id.S!
+    this.permissions = userData.permissions?.SS || [];
   }
 }
 

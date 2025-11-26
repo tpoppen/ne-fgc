@@ -1,4 +1,4 @@
-import { DeleteItemCommand, GetItemCommand, PutItemCommand, QueryCommand, ScalarAttributeType, UpdateItemCommand } from "@aws-sdk/client-dynamodb";
+import { DeleteItemCommand, GetItemCommand, PutItemCommand, QueryCommand, UpdateItemCommand } from "@aws-sdk/client-dynamodb";
 import dynamoDbClientProvider from "../db/dynamoDbClientProvider.js";
 import { getTableName, GS1, PRIMARY_KEY } from "../db/neFGCTable.js";
 import { isSuccessStatus } from "../utils/httpStatusHelper.js";
@@ -70,6 +70,7 @@ const createUser = async (createParams: CreateUserParams) => {
       username: { S: createParams.username },
       nickname: { S: createParams.nickname },
       email: { S: createParams.email },
+      permissions: { SS: [] }
     }
   });
 
@@ -83,7 +84,11 @@ const createUser = async (createParams: CreateUserParams) => {
   }
 };
 
-type UpdateUserParams = CreateUserParams;
+type UpdateUserParams = {
+  userId: string;
+  email: string;
+  nickname: string;
+};
 const updateUser = async (updateParams: UpdateUserParams) => {
   const dbClient = dynamoDbClientProvider.getClient();
   const updateUser = new UpdateItemCommand({
@@ -100,7 +105,7 @@ const updateUser = async (updateParams: UpdateUserParams) => {
       ':n': { S: updateParams.nickname },
       ':e': { S: updateParams.email },
     },
-    UpdateExpression: 'SET #u = :u, #n = :n, #e = :e'
+    UpdateExpression: 'SET #n = :n, #e = :e'
   });
 
   try {
@@ -112,6 +117,33 @@ const updateUser = async (updateParams: UpdateUserParams) => {
     return false;
   }
 };
+
+type UpdateUserPermissionsParams = {
+  userId: string;
+  permissions: string[];
+}
+const updateUserPermissions = async (updatePermissionsParams: UpdateUserPermissionsParams) => {
+  const dbClient = dynamoDbClientProvider.getClient();
+  const updateUser = new UpdateItemCommand({
+    TableName: getTableName(),
+    Key: {
+      [PRIMARY_KEY.PK]: { S: U_PK },
+      [PRIMARY_KEY.SK]: { S: `USER#${updatePermissionsParams.userId}` },
+    },
+    ExpressionAttributeNames: { '#p': 'permissions' },
+    ExpressionAttributeValues: { ':p': { SS: updatePermissionsParams.permissions } },
+    UpdateExpression: 'SET #p = :p'
+  });
+
+  try {
+    const result = await dbClient.send(updateUser);
+    console.log({ result });
+    return isSuccessStatus(result.$metadata.httpStatusCode);
+  } catch (error) {
+    console.log('USER UPDATE PERMISSIONS FAILURE', error);
+    return false;
+  }
+}
 
 type DeleteUserParams = { userId: string; }
 const deleteUser = async (deleteParams: DeleteUserParams) => {
@@ -139,5 +171,6 @@ export {
   fetchUser,
   createUser,
   updateUser,
+  updateUserPermissions,
   deleteUser,
 }

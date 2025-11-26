@@ -17,6 +17,7 @@ import Login from "./pages/login";
 import RecoverAccount from "./pages/recoverAccount";
 import NotificationContext, { NotificationConfig } from "./utils/notificationContext";
 import UserSessionContext, { UserSessionInfo } from "./utils/userContext";
+import ApiClientProvider from "./utils/apiClientProvider";
 
 const SESSION_KEY = 'userSession';
 const THEME_KEY = 'useLight';
@@ -53,7 +54,7 @@ const AppLayout = () => {
 
 const App = () => {
   const [useDark, setTheme] = useState(true);
-  const [userSession, setUserSession] = useState<UserSessionInfo | undefined>(undefined);
+  const [userSession, setUserSession] = useState<UserSessionInfo | null>(null);
   const [api, contextHolder] = notification.useNotification();
 
   // load session info from local storage if present
@@ -69,7 +70,7 @@ const App = () => {
     }
   }, []);
 
-  const storeSessionInfo = (sessionInfo: UserSessionInfo | undefined) => {
+  const storeSessionInfo = (sessionInfo: UserSessionInfo | null) => {
     if (!sessionInfo) {
       localStorage.removeItem(SESSION_KEY);
     } else {
@@ -100,19 +101,21 @@ const App = () => {
           <NotificationContext.Provider value={{ showNotification }}>
             {contextHolder}
             <BrowserRouter>
-              <Routes>
-                <Route path="/sign_up" element={<SignUp />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/recoverAccount" element={<RecoverAccount />} />
-                <Route element={<AppLayout />}>
-                  <Route index element={<Home />} />
-                  <Route path="/home" element={<Home />} /> 
-                  <Route path="/gallery" element={<Gallery />} /> 
-                  <Route path="/gear-rental" element={<GearRental />} />
-                  <Route path="/repairs-and-commissions" element={<RepairsAndCommissions />} />
-                  <Route path="/account" element={<Account />} />
-                </Route>
-              </Routes>
+              <ApiClientProvider>
+                <Routes>
+                  <Route path="/sign_up" element={<SignUp />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/recoverAccount" element={<RecoverAccount />} />
+                  <Route element={<AppLayout />}>
+                    <Route index element={<Home />} />
+                    <Route path="/home" element={<Home />} /> 
+                    <Route path="/gallery" element={<Gallery />} /> 
+                    <Route path="/gear-rental" element={<GearRental />} />
+                    <Route path="/repairs-and-commissions" element={<RepairsAndCommissions />} />
+                    <Route path="/account" element={<Account />} />
+                  </Route>
+                </Routes>
+              </ApiClientProvider>
             </BrowserRouter>
           </NotificationContext.Provider>
         </UserSessionContext.Provider>

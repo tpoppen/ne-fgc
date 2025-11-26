@@ -6,11 +6,14 @@ export type UserSessionInfo = {
   permissions: string[];
 }
 
-export type SetUserSession = (userSessionInfo: UserSessionInfo | undefined) => void;
+export type SetUserSession = (userSessionInfo: UserSessionInfo | null) => void;
 
-const UserSessionContext = createContext<{ setUserSession: SetUserSession, userSession: UserSessionInfo | undefined }>({
-  setUserSession: (session: UserSessionInfo | undefined) => {},
-  userSession: undefined,
+const UserSessionContext = createContext<{
+  setUserSession: SetUserSession,
+  userSession: UserSessionInfo | null
+}>({
+  setUserSession: (session: UserSessionInfo | null) => {},
+  userSession: null,
 });
 
 export default UserSessionContext;

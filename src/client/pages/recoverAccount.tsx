@@ -5,7 +5,7 @@ import NotificationContext from "../utils/notificationContext";
 
 const RecoverAccount = () => {
   const navigate = useNavigate();
-  const api = useContext(NotificationContext);
+  const notify = useContext(NotificationContext);
   const [username, setUsername] = useState('');
   
   const [confirming, setConfirming] = useState(false);
@@ -48,7 +48,7 @@ const RecoverAccount = () => {
         return;
       }
 
-      api.showNotification({
+      notify.showNotification({
         message: 'Successfully Reset Password',
         type: 'info',
       });

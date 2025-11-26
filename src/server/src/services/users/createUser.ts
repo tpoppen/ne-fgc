@@ -13,7 +13,7 @@ type CreateUserParams = {
 const CreateUser = async (userParams: CreateUserParams) => {
   const { username, password, email, nickname } = userParams;
   const clientID = cognitoIdentityProviderClient.getClientID();
-  const clientSecret = cognitoIdentityProviderClient.getClientSecret(username);
+  const clientSecret = cognitoIdentityProviderClient.getSecretHash(username);
   const client = cognitoIdentityProviderClient.getClient();
 
   const signUpCommand = new SignUpCommand({

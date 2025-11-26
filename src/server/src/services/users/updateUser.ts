@@ -8,10 +8,53 @@
  * - photo (eventually)
  */
 
-import { updateUser } from "accessors/userAccessor.js";
+import { UpdateUserAttributesCommand } from "@aws-sdk/client-cognito-identity-provider";
 
-const UpdateUser = () => {
-  // updateUser()
+import { updateUser } from "../../accessors/userAccessor.js";
+import cognitoIdentityProviderClient from "../../utils/cognitoIdentityProviderClient.js";
+
+type UpdateUserParams = {
+  accessToken: string;
+  userId: string;
+  email: string;
+  nickname: string;
+}
+
+const UpdateUser = async ({
+  accessToken,
+  userId,
+  email,
+  nickname,
+}: UpdateUserParams): Promise<{ email: string, nickname: string }> => {
+  try {
+    const client = cognitoIdentityProviderClient.getClient();
+    const updateUserCommand = new UpdateUserAttributesCommand({
+      AccessToken: accessToken,
+      UserAttributes: [{
+        Name: 'email',
+        Value: email,
+      }, {
+        Name: 'nickname',
+        Value: nickname,
+      }]
+    });
+
+    const updateCogUserResponse = await client.send(updateUserCommand);
+    console.log({ updateCogUserResponse });
+  } catch (error) {
+    console.log({ updateCogUserError: error });
+    throw error;
+  }
+
+  try {
+    const updateUserRecordResponse = updateUser({ email, nickname, userId });
+    console.log({ updateUserRecordResponse });
+  } catch (error) {
+    console.log({ updateUserRecordError: error });
+    throw error;
+  }
+  
+  return { email, nickname };
 };
 
 export default UpdateUser;

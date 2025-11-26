@@ -5,7 +5,7 @@ import { Button, Flex, Layout, Menu, Segmented, Typography } from 'antd';
 import { ItemType } from 'antd/es/menu/interface';
 import { CalendarOutlined, ClockCircleOutlined, MoonOutlined, PictureOutlined, SunOutlined, TagOutlined, UserOutlined } from '@ant-design/icons';
 import UserSessionContext from '../utils/userContext';
-import buildHeaders from '../utils/buildHeaders';
+import { ApiContext } from '../utils/apiClientProvider';
 
 const BaseMenuItems: ItemType[] = [
   {
@@ -42,7 +42,8 @@ type HeaderProps = {
 }
 
 const Header = ({ theme, onThemeChange }: HeaderProps) => {
-  const { setUserSession, userSession } = useContext(UserSessionContext);
+  const { send } = useContext(ApiContext);
+  const { userSession, setUserSession } = useContext(UserSessionContext);
   const [navItems, setNavItems] = useState(BaseMenuItems);
   const navigate = useNavigate();
 
@@ -57,12 +58,8 @@ const Header = ({ theme, onThemeChange }: HeaderProps) => {
   const loginLogoutClicked = async () => {
     if (userSession) {
       try {
-        await fetch('/api/sessions/logout', {
-          headers: buildHeaders(userSession.token),
-          method: 'POST'
-        });
-
-        setUserSession(undefined);
+        await send('/api/sessions/logout', { method: 'POST' });
+        setUserSession(null);
       } catch (error) {
         // TODO: log failure to logout somewhere
         console.log({ error });

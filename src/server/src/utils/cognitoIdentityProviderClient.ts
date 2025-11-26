@@ -12,7 +12,8 @@ const BuildCognitoSingleton = () => {
     },
     getClient: () => client,
     getClientID: () => process.env.AWS_COGNITO_CLIENT_ID!,
-    getClientSecret: (username: string) => {
+    getClientSecret: () => (process.env.AWS_COGNITO_CLIENT_ID!),
+    getSecretHash: (username: string) => {
       // cognito secret hash is a sha 256 HMAC of username + client id,
       // using client secret as the hash
       const secret = process.env.AWS_COGNITO_CLIENT_SECRET!;
