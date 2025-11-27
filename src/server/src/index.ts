@@ -37,7 +37,7 @@ app.use('/api', ApiRouter);
 // serve static react page
 app.use(express.static(publicPath));
 app.get('/*splat', (_, res) => {
-  console.log("resolving to static page fetch");
+  console.log(`${Date.now()}: Resolving to static page fetch`);
   res.status(200).sendFile(index_path);
 });
 

@@ -35,10 +35,8 @@ const getAuthToken = (authHeader: string | null) => {
   return undefined;
 }
 
-type ProviderProps = {
-  children: React.ReactNode;
-}
-// TODO: consume session context
+type ProviderProps = { children: React.ReactNode; }
+
 const ApiClientProvider = ({ children }: ProviderProps) => {
   const { userSession, setUserSession } = useContext(UserSessionContext);
   const navigate = useNavigate();

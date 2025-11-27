@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router';
 
 import { Button, Flex, Layout, Menu, Segmented, Typography } from 'antd';
 import { ItemType } from 'antd/es/menu/interface';
-import { CalendarOutlined, ClockCircleOutlined, MoonOutlined, PictureOutlined, SunOutlined, TagOutlined, UserOutlined } from '@ant-design/icons';
+import { CalendarOutlined, ClockCircleOutlined, MoonOutlined, PictureOutlined, SunOutlined, TagOutlined, TeamOutlined, UserOutlined } from '@ant-design/icons';
 import UserSessionContext from '../utils/userContext';
 import { ApiContext } from '../utils/apiClientProvider';
 
@@ -22,6 +22,11 @@ const BaseMenuItems: ItemType[] = [
     key: '/gallery',
     label: <Link to="/gallery">Gallery</Link>,
     icon: <PictureOutlined />
+  },
+  {
+    key: '/personalities',
+    label: <Link to="/personalities">Personalities</Link>,
+    icon: <TeamOutlined />
   },
   {
     key: '/repairs-and-commissions',

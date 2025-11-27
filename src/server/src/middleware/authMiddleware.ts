@@ -39,7 +39,6 @@ type AwsJwtPayload = {
 }
 
 const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
-  console.log('Auth Middleware');
   const authHeader = req.headers.authorization;
   const token = getJWTFromAuthHeader(authHeader || '');
 
