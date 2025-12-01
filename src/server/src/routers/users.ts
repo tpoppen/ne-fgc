@@ -1,6 +1,6 @@
 import express from 'express';
 import type { Request, Response } from "express";
-import { ChangePasswordCommand } from '@aws-sdk/client-cognito-identity-provider';
+import { ChangePasswordCommand, NotAuthorizedException } from '@aws-sdk/client-cognito-identity-provider';
 
 import { fetchUser, fetchUsers, updateUserPermissions } from '../accessors/userAccessor.js';
 import authMiddleware from '../middleware/authMiddleware.js';
@@ -98,10 +98,13 @@ UsersRouter
       const response = await client.send(changePassword);
       console.log({ changePasswordResponse: response });
       return res.status(200).send();
-    } catch(error) {
+    } catch(error: any | NotAuthorizedException) {
       // TODO: handle various errors: Limit Exceeded, Password History error, Invalid Password
       // inspect aws error for more specific error details
-      console.log({ error });
+      if (error.$response) {
+        return res.status(error.$response.statusCode).send({ errorMessage: error.message });
+      }
+
       res.status(500).send();
     }
   })

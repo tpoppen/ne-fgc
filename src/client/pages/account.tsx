@@ -70,9 +70,10 @@ const Account = () => {
         method: 'PUT',
         body: JSON.stringify({ oldPassword, newPassword })
       });
-
+      
+      const result = await response.json();
       if (response.status !== 200) {
-        return notify.showNotification({ type: 'error', message: 'Failed to Change Password' });
+        return notify.showNotification({ type: 'error', message: result.errorMessage || 'Failed to Change Password' });
       }
       
       notify.showNotification({
@@ -128,7 +129,7 @@ const Account = () => {
             layout="vertical"
             label="Nickname"
             name="nickname"
-            rules={[{ required: true, message: "Must provide an email" }]}
+            rules={[{ required: true, message: "Must provide a nickname" }]}
           >
             <Input />
           </Form.Item>
@@ -150,6 +151,7 @@ const Account = () => {
             layout="vertical" 
             label="Old Password"
             name="oldPassword"
+            rules={[{ required: true, message: "Must enter current password" }]}
           >
             <Input.Password />
           </Form.Item>
@@ -157,6 +159,7 @@ const Account = () => {
             layout="vertical" 
             label="New Password"
             name="newPassword"
+            rules={[{ required: true, message: "Must enter a new password" }]}
           >
             <Input.Password />
           </Form.Item>
@@ -164,6 +167,7 @@ const Account = () => {
             layout="vertical" 
             label="Confirm New Password"
             name="confirmNewPassword"
+            rules={[{ required: true, message: "Must confirm new password" }]}
           >
             <Input.Password />
           </Form.Item>
