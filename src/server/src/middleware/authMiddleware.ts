@@ -83,7 +83,7 @@ const authMiddleware = async (req: Request, res: Response, next: NextFunction) =
   }
 
   // No Auth Attached
-  return res.sendStatus(401);
+  return res.status(401).send({ errorMessage: "Not Authenticated" });
 }
 
 export default authMiddleware;

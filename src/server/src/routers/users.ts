@@ -21,7 +21,7 @@ UsersRouter
   // admin only
   .get('/', [authMiddleware, addPermissionsMiddleware], async (req: Request, res: Response) => {
     if (!req.permissions.includes(PERMISSIONS.USER_ADMIN)) {
-      return res.status(403).send();
+      return res.status(403).send({ errorMessage: "Not Authorized" });
     }
 
     const users = await fetchUsers();
@@ -31,7 +31,7 @@ UsersRouter
   // admin only
   .put('/:userId/permissions', [authMiddleware, addPermissionsMiddleware], async (req: Request, res: Response) => {
     if (!req.permissions.includes(PERMISSIONS.USER_ADMIN)) {
-      return res.status(403).send();
+      return res.status(403).send({ errorMessage: "Not Authorized" });
     }
 
     try {
@@ -41,13 +41,13 @@ UsersRouter
       });
       res.status(200).send(updatedUser);
     } catch (error) {
-      res.status(500).send();
+      res.status(500).send({ errorMessage: "An unexpected error occurred" });
     }
   })
   // admin or matching user
   .get('/:userId', [authMiddleware, addPermissionsMiddleware], async (req: Request, res: Response) => {
     if (!req.permissions.includes(PERMISSIONS.USER_ADMIN) && req.params.userId !== req.userId) {
-      return res.status(403).send();
+      return res.status(403).send({ errorMessage: "Not Authorized" });
     }
 
     const user = await fetchUser({ userId: req.params.userId });
@@ -61,7 +61,7 @@ UsersRouter
         AdminUpdateUser();
         return res.sendStatus(200);
       } catch (error) {
-        return res.sendStatus(500);
+        return res.status(500).send({ errorMessage: "An unexpected error occurred" });
       }
     } else if (req.params.userId === req.userId) {
       const accessToken = getJWTFromAuthHeader(req.headers.authorization)!;
@@ -77,15 +77,15 @@ UsersRouter
 
         return res.status(200).send(user);
       } catch (error) {
-        return res.status(500).send();
+        return res.status(500).send({ errorMessage: "An unexpected error occurred" });
       }
     }
 
-    return res.status(403).send();
+    return res.status(403).send({ errorMessage: "Not Authorized" });
   })
   .put('/:userId/change_password', authMiddleware, async (req, res) => {
     const accessToken = getJWTFromAuthHeader(req.headers.authorization);
-    if (!accessToken) { return 401; }
+    if (!accessToken) { return res.status(401).send({ errorMessage: "Not Authenticated" }); }
 
     const client = cognitoIdentityProviderClient.getClient();
     const changePassword = new ChangePasswordCommand({
@@ -105,7 +105,7 @@ UsersRouter
         return res.status(error.$response.statusCode).send({ errorMessage: error.message });
       }
 
-      res.status(500).send();
+      res.status(500).send({ errorMessage: "An unexpected error occurred" });
     }
   })
   // admin or matching user
@@ -116,20 +116,20 @@ UsersRouter
         AdminDeleteUser();
         return res.sendStatus(200);
       } catch (error) {
-        return res.sendStatus(500);
+        return res.status(500).send({ errorMessage: "An unexpected error occurred" });
       }
     } else if (req.params.userId === req.userId) {
       const accessToken = getJWTFromAuthHeader(req.headers.authorization)!;
       try {
         const deleted = await DeleteUser({ accessToken, userId: req.params.userId });
         if (deleted) { res.sendStatus(204); }
-        else { res.status(500).send(); }
+        else { res.status(500).send({ errorMessage: "An unexpected error occurred" }); }
       } catch (error) {
-        res.status(500).send();
+        res.status(500).send({ errorMessage: "An unexpected error occurred" });
       }
     }
 
-    return res.status(403).send();
+    return res.status(403).send({ errorMessage: "Not Authorized" });
   });
   
 export default UsersRouter;

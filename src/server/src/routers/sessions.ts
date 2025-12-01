@@ -19,7 +19,7 @@ SessionsRouter
       // TODO: handle various errors,
       // inspect aws error for more specific error details
       console.log({ error });
-      res.status(500).send();
+      res.status(500).send({ errorMessage: "An unexpected error occurred" });
     }
   })
   .post('/confirm', async (req, res) => {
@@ -43,7 +43,7 @@ SessionsRouter
       // TODO: handle various errors,
       // inspect aws error for more specific error details
       console.log({ error });
-      res.status(500).send();
+      res.status(500).send({ errorMessage: "An unexpected error occurred" });
     }
   })
   .post('/login', async (req, res) => {
@@ -82,12 +82,12 @@ SessionsRouter
       }
 
       console.log({ error });
-      res.status(500).send({ message: 'Unexpected Error occurred' });
+      res.status(500).send({ errorMessage: "An unexpected error occurred" });
     }
   })
   .post('/logout', authMiddleware, async (req, res) => {
     const accessToken = getJWTFromAuthHeader(req.headers.authorization);
-    if (!accessToken) { return res.send(401); }
+    if (!accessToken) { return res.status(401).send({ errorMessage: "Not Authenticated" }); }
 
     const client = cognitoIdentityProviderClient.getClient();
     const confirmCommand = new GlobalSignOutCommand({
@@ -102,7 +102,7 @@ SessionsRouter
       // TODO: handle various errors,
       // inspect aws error for more specific error details
       console.log({ error });
-      res.status(500).send();
+      res.status(500).send({ errorMessage: "An unexpected error occurred" });
     }
   }).post('/reset_password', async (req, res) => {
     const { username } = req.body;
@@ -121,7 +121,7 @@ SessionsRouter
       // TODO: handle various errors,
       // inspect aws error for more specific error details
       console.log({ error });
-      res.status(500).send();
+      res.status(500).send({ errorMessage: "An unexpected error occurred" });
     }
   }).post('/reset_password_confirm', async (req, res) => {
     const accessToken = getJWTFromAuthHeader(req.headers.authorization);
@@ -146,7 +146,7 @@ SessionsRouter
       // TODO: handle various errors,
       // inspect aws error for more specific error details
       console.log({ error });
-      res.status(500).send();
+      res.status(500).send({ errorMessage: "An unexpected error occurred" });
     }
   });
   
