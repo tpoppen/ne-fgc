@@ -3,6 +3,7 @@ import { createContext } from "react";
 
 export type NotificationConfig = {
   message: string,
+  placement?: 'bottom' | 'top' | 'topRight',
   type: 'info' | 'warning' | 'error',
 }
 

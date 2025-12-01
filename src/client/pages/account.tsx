@@ -46,10 +46,15 @@ const Account = () => {
     const { nickname, email } = values;
     
     try {
-      const response = await send(`/api/${userSession?.userId}`, {
+      const response = await send(`/api/users/${userSession?.userId}`, {
         method: 'PUT',
         body: JSON.stringify({ nickname, email })
       });
+
+      if (response.status !== 200) {
+        return notify.showNotification({ type: 'error', message: 'Failed to Update Account Info' });
+      }
+
       console.log({ updateAccountInfoResponse: response });
       notify.showNotification({ type: 'info', message: 'Updated Account Info' });
     } catch (error) {
@@ -61,12 +66,15 @@ const Account = () => {
     const { oldPassword, newPassword } = values;
 
     try {
-      const response = await send('/api/change_password', {
-        method: 'POST',
+      const response = await send(`/api/users/${userSession?.userId}/change_password`, {
+        method: 'PUT',
         body: JSON.stringify({ oldPassword, newPassword })
       });
 
-      console.log({ changePasswordResponse: response });
+      if (response.status !== 200) {
+        return notify.showNotification({ type: 'error', message: 'Failed to Change Password' });
+      }
+      
       notify.showNotification({
         type: 'info',
         message: 'Successfully Changed Password',
@@ -80,8 +88,11 @@ const Account = () => {
 
   const deleteAccount = async () => {
     try {
-      const response = await send(`/api/${userSession?.userId}`, { method: 'DELETE' });
-      console.log({ deleteResponse: response });
+      const response = await send(`/api/users/${userSession?.userId}`, { method: 'DELETE' });
+      if (response.status !== 200) {
+        return notify.showNotification({ type: 'error', message: 'Failed to Delete Account' });
+      }
+
       notify.showNotification({
         message: 'Successfully Deleted Account',
         type: 'info'
@@ -107,6 +118,9 @@ const Account = () => {
             layout="vertical"
             label="Email"
             name="email"
+            rules={[
+              { required: true, message: "Must provide an email" },
+            ]}
           >
             <Input />
           </Form.Item>
@@ -114,6 +128,7 @@ const Account = () => {
             layout="vertical"
             label="Nickname"
             name="nickname"
+            rules={[{ required: true, message: "Must provide an email" }]}
           >
             <Input />
           </Form.Item>

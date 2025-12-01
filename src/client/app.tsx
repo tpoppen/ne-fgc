@@ -80,16 +80,16 @@ const App = () => {
     setUserSession(sessionInfo);
   }
 
-  const showNotification = ({ message, type }: NotificationConfig) => {
+  const showNotification = ({ message, type, placement = 'topRight' }: NotificationConfig) => {
     switch(type) {
       case 'info':
-        api.info({ message, placement: 'bottom' });
+        api.info({ message, placement });
         break;
       case 'warning':
-        api.warning({ message, placement: 'bottom' });
+        api.warning({ message, placement });
         break;
       case 'error':
-        api.error({ message, placement: 'bottom' });
+        api.error({ message, placement });
         break;
     }
   }

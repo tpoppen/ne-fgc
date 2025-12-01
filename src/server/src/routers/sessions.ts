@@ -1,4 +1,4 @@
-import { AuthenticationResultType, AuthFlowType, ChangePasswordCommand, ConfirmForgotPasswordCommand, ConfirmSignUpCommand, ForgotPasswordCommand, GlobalSignOutCommand, InitiateAuthCommand, NotAuthorizedException } from '@aws-sdk/client-cognito-identity-provider';
+import { AuthenticationResultType, AuthFlowType, ConfirmForgotPasswordCommand, ConfirmSignUpCommand, ForgotPasswordCommand, GlobalSignOutCommand, InitiateAuthCommand, NotAuthorizedException } from '@aws-sdk/client-cognito-identity-provider';
 import express from 'express';
 import { jwtDecode } from 'jwt-decode';
 
@@ -100,27 +100,6 @@ SessionsRouter
       res.status(200).json({ message: 'Successfully Logged Out'}).send();
     } catch (error) {
       // TODO: handle various errors,
-      // inspect aws error for more specific error details
-      console.log({ error });
-      res.status(500).send();
-    }
-  }).post('/change_password', authMiddleware, async (req, res) => {
-    const accessToken = getJWTFromAuthHeader(req.headers.authorization);
-    if (!accessToken) { return 401; }
-
-    const client = cognitoIdentityProviderClient.getClient();
-    const changePassword = new ChangePasswordCommand({
-      PreviousPassword: req.body.oldPassword,
-      ProposedPassword: req.body.newPassword,
-      AccessToken: accessToken,
-    });
-
-    try {
-      const response = await client.send(changePassword);
-      console.log({ changePasswordResponse: response });
-      return res.status(200).send();
-    } catch(error) {
-      // TODO: handle various errors: Limit Exceeded, Password History error, Invalid Password
       // inspect aws error for more specific error details
       console.log({ error });
       res.status(500).send();
