@@ -42,11 +42,12 @@ const fetchUser = async (fetchParams: FetchUserParams) => {
 
   try {
     const result = await dbClient.send(getUser);
+    console.log({ result });
     const user = new User(result.Item!);
     return user;
   } catch (error) {
     console.log('USER FETCH FAILURE', error);
-    return false;
+    return null;
   }
 };
 
@@ -70,7 +71,7 @@ const createUser = async (createParams: CreateUserParams) => {
       username: { S: createParams.username },
       nickname: { S: createParams.nickname },
       email: { S: createParams.email },
-      permissions: { SS: [] }
+      permissions: { SS: [''] }
     }
   });
 

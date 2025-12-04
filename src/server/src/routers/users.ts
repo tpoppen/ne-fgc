@@ -112,9 +112,12 @@ UsersRouter
   .delete('/:userId', [authMiddleware, addPermissionsMiddleware], async (req: Request, res: Response) => {
     if (req.permissions.includes(PERMISSIONS.USER_ADMIN)) {
       try {
-        // TODO: implement admin delete user
-        AdminDeleteUser();
-        return res.sendStatus(200);
+        const result = await AdminDeleteUser({ userId: req.params.userId });
+        if (result.success) {
+          return res.status(200).send({ success: true });
+        } else {
+          return res.status(500).send({ success: false, errorMessage: result.message });
+        }
       } catch (error) {
         return res.status(500).send({ errorMessage: "An unexpected error occurred" });
       }

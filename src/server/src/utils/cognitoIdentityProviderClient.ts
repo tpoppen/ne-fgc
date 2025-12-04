@@ -1,4 +1,5 @@
 import { CognitoIdentityProviderClient } from '@aws-sdk/client-cognito-identity-provider';
+import { fromIni } from '@aws-sdk/credential-providers';
 import { createHmac } from 'crypto';
 
 const BuildCognitoSingleton = () => {
@@ -7,7 +8,10 @@ const BuildCognitoSingleton = () => {
   return {
     init: () => {
       client = new CognitoIdentityProviderClient({
-        region: process.env.AWS_REGION || 'us-east-1'
+        region: process.env.AWS_REGION || 'us-east-1',
+        credentials: fromIni({
+          profile: 'tpoppen-maintainer-poweruser'
+        })
       });
     },
     getClient: () => client,

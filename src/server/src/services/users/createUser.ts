@@ -39,7 +39,11 @@ const CreateUser = async (userParams: CreateUserParams) => {
     console.log({ signUpResult, userId });
     const createUserResult = await createUser({ userId, ...userParams });
     console.log({ createUserResult });
-    return signUpResult;
+    if (signUpResult) {
+      return signUpResult;
+    } else {
+      throw new Error('Failed to create user, try again later');
+    }
   } catch (error) {
     // TODO: idk man
     console.log({ error });

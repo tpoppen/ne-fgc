@@ -41,6 +41,7 @@ type AwsJwtPayload = {
 const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
   const token = getJWTFromAuthHeader(authHeader || '');
+  console.log({ authHeader, token })
 
   if (authHeader && token) {
     const { username } = jwtDecode(token) as AwsJwtPayload;

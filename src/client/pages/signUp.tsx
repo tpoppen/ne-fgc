@@ -1,9 +1,11 @@
 import { Card, Input, Flex, Layout, Typography, Button, Divider } from "antd";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
+import NotificationContext from "../utils/notificationContext";
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const notify = useContext(NotificationContext);
   const [username, setUsername] = useState('');
   const [nickname, setNickname] = useState('');
   const [email, setEmail] = useState('');
@@ -29,6 +31,13 @@ const SignUp = () => {
         password
       })
     }).then((resp) => {
+      if (resp.status >= 400) {
+        return notify.showNotification({
+          type: 'error',
+          message: 'Failed to create user',
+        });
+      }
+
       setConfirming(true);
       console.log({ resp });
     }).catch((error) => {
@@ -44,9 +53,15 @@ const SignUp = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, confirmationCode })
     }).then((resp) => {
-      // TODO: set session token cookie
+      // TODO: set session token cookie?
+      if (resp.status >= 400) {
+        return notify.showNotification({
+          type: 'error',
+          message: 'Failed to create user',
+        });
+      }
       console.log({ resp });
-      navigate('/home');
+      navigate('/login');
     }).catch((error) => {
       console.log({ error });
     });

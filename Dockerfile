@@ -16,7 +16,7 @@ FROM node:${NODE_VERSION}-alpine as base
 WORKDIR /app
 
 # Copy source files into the image.
-COPY ./ .
+COPY ./ ./
 RUN ls -la
 
 # enable yarn install
@@ -27,11 +27,6 @@ RUN yarn install --immutable
 
 # Run the build script.
 RUN yarn build
-
-
-###### TODO 
-# Figure out why i cannot get the dist directory to work with docker?
-
 
 ################################################################################
 # Create a new stage to run the application with minimal runtime dependencies
