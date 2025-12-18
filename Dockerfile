@@ -15,18 +15,30 @@ FROM node:${NODE_VERSION}-alpine as base
 # Set working directory for all build stages.
 WORKDIR /app
 
-# Copy source files into the image.
-COPY ./ ./
-RUN ls -la
+########################################################################
+# Copy and build front end assets
+COPY ./public /app/public
+COPY ./client /app/client
+WORKDIR /app/client
+RUN npm install
+RUN npm run build
+# Delete front end source, leaving just build assets
+WORKDIR /app
+RUN ls -l /app/client
 
-# enable yarn install
-RUN corepack enable && corepack prepare yarn@4.9.2 --activate
+# RUN rm -r /app/client
 
-# install dependencies
-RUN yarn install --immutable
+########################################################################
+# Copy and prep server files in image
+WORKDIR /app
+COPY ./server /app
+RUN npm install
+RUN npm run build
 
-# Run the build script.
-RUN yarn build
+# grant permissions to non-root user profile and switch user
+RUN chown -R node /app/public
+RUN chown -R node /app/dist
+USER node
 
 ################################################################################
 # Create a new stage to run the application with minimal runtime dependencies
@@ -51,4 +63,4 @@ RUN yarn build
 EXPOSE 3000
 
 # Run the application.
-CMD yarn start:prod
+CMD npm run start

@@ -8,30 +8,20 @@
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
 
-## TODO: maybe my migration step needs to be a service that the server is dependent on?
+## TODO:
+# - Reuse base server image in a migration script
+# - Start server after migration step is complete
+
+# NOTE: aws credentials need to be mounted to the image user's directory
+#       for the process user to have access to the credentials
 services:
-  dynamodb-local:
-    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
-    image: "amazon/dynamodb-local:latest"
-    container_name: dynamodb-local
-    ports:
-      - "8000:8000"
-    volumes:
-      - "./docker/dynamodb:/home/dynamodblocal/data"
-    working_dir: /home/dynamodblocal
   server:
-    depends_on:
-      - dynamodb-local
     container_name: ne-fgc
     build:
       context: .
     env_file:
-      - .env
-    environment:
-      NODE_ENV: $NODE_ENV
-      AWS_ACCESS_KEY_ID: 'DUMMYIDEXAMPLE'
-      AWS_SECRET_ACCESS_KEY: 'DUMMYEXAMPLEKEY'
-      REGION: 'us-east-1'
+      - ./server/.env
+    volumes:
+      - ~/.aws:/home/node/.aws:ro
     ports:
       - 3000:3000
-

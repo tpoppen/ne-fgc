@@ -1,0 +1,25 @@
+{
+  "name": "client",
+  "type": "module",
+  "scripts": {
+    "build": "node build.ts --bundle --sourcemaps",
+    "build:prod": "node build.ts --minify --bundle --sourcemaps",
+    "watch": "node build.ts --bundle --sourcemaps --eswatch"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^6.1.0",
+    "antd": "^5.27.4",
+    "jwt-decode": "^4.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router": "^7.9.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.7.1",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "esbuild": "^0.25.10",
+    "mri": "^1.2.0",
+    "typescript": "^5.9.3"
+  }
+}
