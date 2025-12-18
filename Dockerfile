@@ -22,11 +22,6 @@ COPY ./client /app/client
 WORKDIR /app/client
 RUN npm install
 RUN npm run build
-# Delete front end source, leaving just build assets
-WORKDIR /app
-RUN ls -l /app/client
-
-# RUN rm -r /app/client
 
 ########################################################################
 # Copy and prep server files in image
