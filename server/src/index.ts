@@ -31,6 +31,10 @@ app.use(express.json());
 // register api routes
 app.use('/api', ApiRouter);
 
+app.get('/healthcheck', (_, res) => {
+  res.sendStatus(200);
+});
+
 // serve static react page
 app.use(express.static(publicPath));
 app.get('/*splat', (_, res) => {

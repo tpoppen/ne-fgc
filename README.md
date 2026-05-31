@@ -1,5 +1,13 @@
 # ne-fgc
 
+HOSTING TODOS:
+- Finish Github actions script
+    - ADD VARIABLES/SECRETS to github
+    - Get Docker Image creation done
+    - Get docker image push to ECR done
+- TEST that the instance pulls & starts the new app
+- TEST that the instance is hittable from nebraskafgc.com
+
 TODO: 
 - Account Management Page
     - Edit Account

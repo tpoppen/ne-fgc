@@ -13,7 +13,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
 
   const login = () => {
-    console.log({ username, password });
     fetch('/api/sessions/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
