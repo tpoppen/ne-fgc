@@ -43,7 +43,7 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPO:latest
 
       - name: Run Deploy Script
-        run:
+        run: |
           COMMAND_ID=$(aws ssm send-command \
             --instance-ids "${{ vars.EC2_INSTANCE_ID }}" \
             --document-name "AWS-RunShellScript" \
