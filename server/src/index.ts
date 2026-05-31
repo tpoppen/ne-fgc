@@ -28,11 +28,13 @@ cognitoJWTVerifier.init();
 dynamoDbClientProvider.init();
 
 // register middleware
-// app.use('/', (req, res, next) => {
-//   next();
-// });
-
 app.use(express.json());
+
+// logging middleware for each request
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
 
 // register api routes
 app.use('/api', ApiRouter);
