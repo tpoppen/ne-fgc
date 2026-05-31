@@ -10,7 +10,7 @@ import Personalities from './pages/personalities';
 import Header from './components/header';
 import Footer from './components/footer';
 import RepairsAndCommissions from './pages/repairsAndCommissions';
-import GearRental from "./pages/gear_rental";
+import GearRental from "./pages/gearRental";
 import Account from "./pages/account";
 import SignUp from "./pages/signUp";
 import Login from "./pages/login";

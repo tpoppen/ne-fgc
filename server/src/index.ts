@@ -6,6 +6,7 @@ import ApiRouter from './routers/api.js';
 import cognitoIdentityProviderClient from './utils/cognitoIdentityProviderClient.js';
 import dynamoDbClientProvider from './db/dynamoDbClientProvider.js';
 import cognitoJWTVerifier from './utils/cognitoJWTVerifier.js';
+import loadEnvVariables from './utils/loadEnvVariables.js';
 
 dotenv.config();
 
@@ -15,6 +16,11 @@ const __dirname = import.meta.dirname;
 
 const publicPath = path.join(__dirname, '../public');
 const index_path = path.join(publicPath, 'index.html');
+
+const secretsName = `ne-fgc-app-config-${process.env.NODE_ENV}`;
+
+// fetch secrets for app
+await loadEnvVariables(secretsName)
 
 // Initialize utils, database, etc etc
 cognitoIdentityProviderClient.init();
