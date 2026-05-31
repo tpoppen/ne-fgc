@@ -2,8 +2,6 @@
   // Visit https://aka.ms/tsconfig to read more about this file
   "include": ["src/**/*", "@customTypes/*"],
   "compilerOptions": {
-    // Typescript 7.0 removes baseUrl:
-    "ignoreDeprecations": "6.0",
     // File Layout
     "baseUrl": "src",
     "rootDir": "src",
