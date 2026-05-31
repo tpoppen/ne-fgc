@@ -60,7 +60,7 @@ jobs:
           aws ssm get-command-invocation \
             --command-id "$COMMAND_ID" \
             --instance-id "${{ vars.EC2_INSTANCE_ID }}" \
-            --query '[StandardOutputContent, StandardErrorContent]' \
+            --query '{Status: Status, Output: StandardOutputContent, Error: StandardErrorContent}' \
             --output text
 
           STATUS=$(aws ssm get-command-invocation \
