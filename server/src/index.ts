@@ -48,12 +48,7 @@ app.get('/healthcheck', (_, res) => {
 app.use(express.static(publicPath));
 app.get('/*splat', (req, res, next) => {
   const ext = path.extname(req.url);
-  if (ext && ext !== '.html') {
-    // has a file extension that isn't html - let it 404 naturally
-    return next();
-  }
-
-  console.log(`${Date.now()}: Resolving to static page fetch`);
+  if (ext && ext !== '.html') { return next(); }
   res.status(200).sendFile(index_path);
 });
 
