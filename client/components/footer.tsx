@@ -7,19 +7,19 @@ const Footer = () => {
   return (
     <Layout.Footer>
       <Flex justify='center' gap={24} color={token.colorPrimaryBg}>
-        <a href="https://discord.gg/Z3szXS3dF2">
+        <a target="_blank" href="https://discord.gg/Z3szXS3dF2">
           <img src="/discord-v2-svgrepo-com.svg" height={60} />
         </a>
-        <a href="https://www.facebook.com/share/g/1AvMnjGAsL/">
+        <a target="_blank" href="https://www.facebook.com/share/g/1AvMnjGAsL/">
           <img src="/facebook-color-svgrepo-com.svg" height={60} />
         </a>
-        <a href="https://x.com/NebraskaFGC">
+        <a target="_blank" href="https://x.com/NebraskaFGC">
           <img src="/twitter-svgrepo-com.svg" height={60} />
         </a>
-        <a href="https://www.youtube.com/@nebraskafgc">
+        <a target="_blank" href="https://www.youtube.com/@nebraskafgc">
           <img src="/youtube-color-svgrepo-com.svg" height={60} />
         </a>
-        <a href="https://www.twitch.tv/cokemilktv">
+        <a target="_blank" href="https://www.twitch.tv/cokemilktv">
           <img src="/twitch-v2-svgrepo-com.svg" height={60} />
         </a>
       </Flex>
