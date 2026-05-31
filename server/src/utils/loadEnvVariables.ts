@@ -14,7 +14,6 @@ const loadEnvVariables = async (secretName: string) => {
 
   if (response.SecretString) {
     const vars = JSON.parse(response.SecretString) as ENV_VARIABLES;
-    console.log({ vars });
     process.env.AWS_COGNITO_CLIENT_ID = vars.AWS_COGNITO_CLIENT_ID;
     process.env.AWS_COGNITO_CLIENT_SECRET = vars.AWS_COGNITO_CLIENT_SECRET;
     process.env.AWS_COGNITO_USER_POOL_ID = vars.AWS_COGNITO_USER_POOL_ID;
