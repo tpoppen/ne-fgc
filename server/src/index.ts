@@ -38,6 +38,7 @@ app.use(express.json());
 app.use('/api', ApiRouter);
 
 app.get('/healthcheck', (_, res) => {
+  console.log("health check received");
   res.sendStatus(200);
 });
 
