@@ -48,7 +48,7 @@ jobs:
             --instance-ids "${{ vars.EC2_INSTANCE_ID }}" \
             --document-name "AWS-RunShellScript" \
             --parameters 'commands=[
-              "AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID }} ECR_REPO=$ECR_REPO IMAGE_TAG=$IMAGE_TAG CONTAINER_NAME=ne-fgc HOST_PORT=3000 CONTAINER_PORT=3000 ENVIRONMENT=production bash /home/ec2-user/deploy.sh
+              "AWS_ACCOUNT_ID=${{ secrets.AWS_ACCOUNT_ID }} ECR_REPO=$ECR_REPO IMAGE_TAG=$IMAGE_TAG CONTAINER_NAME=ne-fgc HOST_PORT=3000 CONTAINER_PORT=3000 ENVIRONMENT=production bash /home/ec2-user/deploy.sh"
             ]'
             --query 'Command.CommandId'
             --output text)
