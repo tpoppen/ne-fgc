@@ -18,6 +18,7 @@ const publicPath = path.join(__dirname, '../public');
 const index_path = path.join(publicPath, 'index.html');
 
 const secretsName = `ne-fgc-app-config-${process.env.NODE_ENV}`;
+console.log(`Starting app for NODE_ENV: ${process.env.NODE_ENV}`);
 
 // fetch secrets for app
 await loadEnvVariables(secretsName)
